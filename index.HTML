@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BTC Clicker</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+        body {
+            -webkit-user-select: none; /* Safari */
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently supported by Chrome, Opera and Safari */
+            background-color: rgb(44, 43, 43);
+            font-family: 'Roboto', sans-serif;
+            color: #ffffff;
+        }
+
+        #reset-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            padding: 10px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 9px;
+        }
+
+        .sectionLeft {
+            float: left;
+            width: 80%;
+        }
+
+        .sectionRight {
+            float: right;
+            width: 20%;
+        }
+
+        .scoreContainer {
+            background-color: rgba(209, 201, 201, 0.6);
+            width: 50%;
+            padding: 10px;
+            border-radius: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin: 0 auto; /* Center the score container */
+        }
+
+        .clickerContainer {
+            position: relative;
+            transition: all .2s ease-in-out;
+        }
+
+        .clickerContainer img:hover { 
+            transform: scale(1.1);
+        }
+
+        .clickerContainer img:active {  
+            transform: scale(0.99);
+        }
+
+        .shopButton {
+            background-color: #b5b5b5;
+            transition: all .2s ease-in-out;
+            border-radius: 10px;
+            width: 100%;
+            margin: 10px 0px;
+        }
+
+        .shopButton:hover {
+            background-color: #dfdada;
+        }
+
+        .shopButton img {
+            height: 64px;
+            width: 64px;
+        }
+
+        .nameAndCost p {
+            margin: 0px;
+        }
+
+        .nameAndCost p:first-of-type {
+            font-size: 24px;
+        }
+
+        .amount {
+            font-size: 48px;
+            color: #595959;
+            width: 15%;
+        }
+
+        img {
+            -webkit-user-drag: none;
+            -khtml-user-drag: none;
+            -moz-user-drag: none;
+            -o-user-drag: none;
+        }
+
+        .sectionFooter {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="sectionLeft">
+        <center>
+            <div class="scoreContainer">
+                <span id="score">0</span> Bitcoin<br>
+                <span id="scorepersecond">0</span> Bitcoin Per Second
+            </div>
+            <br>
+            <div class="clickerContainer">
+                <img src="Assets/Bitcoin.png" height="256px" width="256px" onclick="addToScore(clickingPower)" draggable="false">
+            </div>
+            <div class="sectionFooter">
+                <h5>BTC Stands For Bitcoin</h5>
+            </div>
+        </center>
+    </div>
+
+    <div id="game-container">
+        <!-- Other game elements -->
+        <button id="reset-button" onclick="resetGame()">Reset Game</button>
+    </div>
+    
+
+    <div class="sectionRight">
+        <table class="shopButton" onclick="buyCursor()">
+            <tr>
+                <td class="image"><img src="Assets/1.png"></td>
+                <td class="nameAndCost">
+                    <p>Old Laptop</p>
+                    <p><span id="cursorCost">30</span> Bitcoin</p>
+                </td>
+                <td class="amount"><span id="cursors">0</span></td>
+            </tr>
+        </table>
+
+        <table class="shopButton" onclick="buyOldLaptop()">
+            <tr>
+                <td class="image"><img src="Assets/2.png"></td>
+                <td class="nameAndCost">
+                    <p>Older PC</p>
+                    <p><span id="oldLaptopCost">300</span> Bitcoin</p>
+                </td>
+                <td class="amount"><span id="oldLaptops">0</span></td>
+            </tr>
+        </table>
+
+        <table class="shopButton" onclick="buyOldPC()">
+            <tr>
+                <td class="image"><img src="Assets/3.png"></td>
+                <td class="nameAndCost">
+                    <p>Old PC</p>
+                    <p><span id="oldPCCost">1000</span> Bitcoin</p>
+                </td>
+                <td class="amount"><span id="oldPCs">0</span></td>
+            </tr>
+        </table>
+
+        <table class="shopButton" onclick="buyLaptop()">
+            <tr>
+                <td class="image"><img src="Assets/4.png"></td>
+                <td class="nameAndCost">
+                    <p>Laptop</p>
+                    <p><span id="laptopCost">10000</span> Bitcoin</p>
+                </td>
+                <td class="amount"><span id="laptops">0</span></td>
+            </tr>
+        </table>
+
+        <table class="shopButton" onclick="buyPc()">
+            <tr>
+                <td class="image"><img src="Assets/5.png"></td>
+                <td class="nameAndCost">
+                    <p>Pc</p>
+                    <p><span id="pcCost">50000</span> Bitcoin</p>
+                </td>
+                <td class="amount"><span id="pcs">0</span></td>
+            </tr>
+        </table>
+    </div>
+
+    <script>
+        var score = 0; // Initial score matching the HTML
+        var clickingPower = 1; // Initial clicking power
+
+        var cursorCost = 30;
+        var cursors = 0;
+
+        var oldLaptopCost = 300;
+        var oldLaptops = 0;
+
+        var oldPCCost = 1000;
+        var oldPCs = 0;
+
+        var laptopCost = 10000;
+        var laptops = 0;
+
+        var pcCost = 50000;
+        var pcs = 0;
+
+        function resetGame() {
+            localStorage.removeItem("gameSave"); // Clear saved game state from localStorage
+
+            // Reset all game variables to initial values
+            score = 0;
+            clickingPower = 1;
+            cursors = 0;
+            cursorCost = 30;
+            oldLaptops = 0;
+            oldLaptopCost = 300;
+            oldPCs = 0;
+            oldPCCost = 1000;
+            laptops = 0;
+            laptopCost = 10000;
+            pcs = 0;
+            pcCost = 50000;
+
+            // Update HTML elements with reset values
+            document.getElementById("score").innerHTML = Math.floor(score);
+            document.getElementById("cursorCost").innerHTML = cursorCost;
+            document.getElementById("cursors").innerHTML = cursors;
+            document.getElementById("oldLaptopCost").innerHTML = oldLaptopCost;
+            document.getElementById("oldLaptops").innerHTML = oldLaptops;
+            document.getElementById("oldPCCost").innerHTML = oldPCCost;
+            document.getElementById("oldPCs").innerHTML = oldPCs;
+            document.getElementById("laptopCost").innerHTML = laptopCost;
+            document.getElementById("laptops").innerHTML = laptops;
+            document.getElementById("pcCost").innerHTML = pcCost;
+            document.getElementById("pcs").innerHTML = pcs;
+            updatescorepersecond(); // Update any additional game/UI elements
+        }
+
+        function buyCursor() {
+            if (score >= cursorCost) {
+                score -= cursorCost;
+                cursors += 1;
+                cursorCost = Math.ceil(cursorCost * 1.15);
+
+                clickingPower += 1; // Increase clicking power by 1
+
+                document.getElementById("score").innerHTML = Math.floor(score);
+                document.getElementById("cursorCost").innerHTML = cursorCost;
+                document.getElementById("cursors").innerHTML = cursors;
+                updatescorepersecond();
+            }
+        }
+
+        function buyOldLaptop() {
+            if (score >= oldLaptopCost) {
+                score -= oldLaptopCost;
+                oldLaptops += 1;
+                oldLaptopCost = Math.ceil(oldLaptopCost * 1.15);
+
+                document.getElementById("score").innerHTML = Math.floor(score);
+                document.getElementById("oldLaptopCost").innerHTML = oldLaptopCost;
+                document.getElementById("oldLaptops").innerHTML = oldLaptops;
+                updatescorepersecond();
+            }
+        }
+
+        function buyOldPC() {
+            if (score >= oldPCCost) {
+                score -= oldPCCost;
+                oldPCs += 1;
+                oldPCCost = Math.ceil(oldPCCost * 1.15);
+
+                document.getElementById("score").innerHTML = Math.floor(score);
+                document.getElementById("oldPCCost").innerHTML = oldPCCost;
+                document.getElementById("oldPCs").innerHTML = oldPCs;
+                updatescorepersecond();
+            }
+        }
+        
+        function buyLaptop() {
+            if (score >= laptopCost) {
+                score -= laptopCost;
+                laptops += 1;
+                laptopCost = Math.ceil(laptopCost * 1.15);
+
+                document.getElementById("score").innerHTML = Math.floor(score);
+                document.getElementById("laptopCost").innerHTML = laptopCost;
+                document.getElementById("laptops").innerHTML = laptops;
+                updatescorepersecond();
+            }
+        }
+
+        function buyPc() {
+            if (score >= pcCost) {
+                score -= pcCost;
+                pcs += 1;
+                pcCost = Math.ceil(pcCost * 1.15);
+
+                document.getElementById("score").innerHTML = Math.floor(score);
+                document.getElementById("pcCost").innerHTML = pcCost;
+                document.getElementById("pcs").innerHTML = pcs;
+                updatescorepersecond();
+            }
+        }
+
+        function addToScore(amount) {
+            score += amount;
+            document.getElementById("score").innerHTML = Math.floor(score);
+        }
+
+        function saveGame() {
+            var gameSave = {
+                score: score,
+                clickingPower: clickingPower,
+                cursors: cursors,
+                cursorCost: cursorCost,
+                oldLaptops: oldLaptops,
+                oldLaptopCost: oldLaptopCost,
+                oldPCs: oldPCs,
+                oldPCCost: oldPCCost,
+                laptops: laptops,
+                laptopCost: laptopCost,
+                pcs: pcs,
+                pcCost: pcCost
+            };
+            localStorage.setItem("gameSave", JSON.stringify(gameSave));
+        }
+
+        function loadGame() {
+            var savedGame = JSON.parse(localStorage.getItem("gameSave"));
+            if (savedGame) {
+                score = savedGame.score;
+                clickingPower = savedGame.clickingPower;
+                cursors = savedGame.cursors;
+                cursorCost = savedGame.cursorCost;
+                oldLaptops = savedGame.oldLaptops;
+                oldLaptopCost = savedGame.oldLaptopCost;
+                oldPCs = savedGame.oldPCs;
+                oldPCCost = savedGame.oldPCCost;
+                laptops = savedGame.laptops;
+                laptopCost = savedGame.laptopCost;
+                pcs = savedGame.pcs;
+                pcCost = savedGame.pcCost;
+            }
+            document.getElementById("score").innerHTML = Math.floor(score);
+            document.getElementById("cursorCost").innerHTML = cursorCost;
+            document.getElementById("cursors").innerHTML = cursors;
+            document.getElementById("oldLaptopCost").innerHTML = oldLaptopCost;
+            document.getElementById("oldLaptops").innerHTML = oldLaptops;
+            document.getElementById("oldPCCost").innerHTML = oldPCCost;
+            document.getElementById("oldPCs").innerHTML = oldPCs;
+            document.getElementById("laptopCost").innerHTML = laptopCost;
+            document.getElementById("laptops").innerHTML = laptops;
+            document.getElementById("pcCost").innerHTML = pcCost;
+            document.getElementById("pcs").innerHTML = pcs;
+            updatescorepersecond();
+        }
+
+        function updatescorepersecond() {
+            var scorePerSecond = oldLaptops * 1 + oldPCs * 2 + laptops * 10 + pcs * 25;
+            document.getElementById("scorepersecond").innerHTML = scorePerSecond;
+        }
+
+        setInterval(function() {
+            score += oldLaptops * 1 + oldPCs * 2 + laptops * 10 + pcs * 25;
+            document.getElementById("score").innerHTML = Math.floor(score);
+            updatescorepersecond();
+        
+            document.title = score + " BTC - Bitcoin Clicker";
+        }, 1000); // 1 second
+
+        setInterval(saveGame, 30000); // Save game every 30 seconds
+
+        window.onload = loadGame;
+    </script>
+</body>
+</html>
