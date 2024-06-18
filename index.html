@@ -198,7 +198,7 @@
 
     <script>
         var score = 0; // Initial score matching the HTML
-        var clickingPower = 0.5; // Initial clicking power
+        var clickingPower = 1; // Initial clicking power
 
         var cursorCost = 30;
         var cursors = 0;
@@ -223,7 +223,7 @@
 
             // Reset all game variables to initial values
             score = 0;
-            clickingPower = 0.5;
+            clickingPower = 1;
             cursors = 0;
             cursorCost = 30;
             oldLaptops = 0;
@@ -263,7 +263,7 @@
                 document.getElementById("score").innerHTML = Math.floor(score);
             }, 1000);
 
-            console.log("Game reset");
+            alert("Your Game Hs Been Reset");
         }
 
         function saveGame() {
@@ -335,7 +335,7 @@
             if (score >= cursorCost) {
                 score -= cursorCost;
                 cursors++;
-                cursorCost = Math.floor(cursorCost * 1.1);
+                cursorCost = Math.floor(cursorCost * 1.2);
                 document.getElementById("score").innerHTML = Math.floor(score);
                 document.getElementById("cursorCost").innerHTML = cursorCost;
                 document.getElementById("cursors").innerHTML = cursors;
