@@ -125,10 +125,8 @@
     </div>
 
     <div id="game-container">
-        <!-- Other game elements -->
         <button id="reset-button" onclick="resetGame()">Reset Game</button>
     </div>
-    
 
     <div class="sectionRight">
         <table class="shopButton" onclick="buyCursor()">
@@ -185,19 +183,18 @@
                 <td class="amount"><span id="pcs">0</span></td>
             </tr>
         </table>
-    </div>
 
-    <table class="shopButton" onclick="buyGoodpc()">
-        <tr>
-            <td class="image"><img src="Assets/6.png"></td>
-            <td class="nameAndCost">
-                <p>Good PC</p>
-                <p><span id="goodpcCost">100000</span> Bitcoin</p>
-            </td>
-            <td class="amount"><span id="goodpcs">0</span></td>
-        </tr>
-    </table>
-</div>
+        <table class="shopButton" onclick="buyGoodpc()">
+            <tr>
+                <td class="image"><img src="Assets/6.png"></td>
+                <td class="nameAndCost">
+                    <p>Good PC</p>
+                    <p><span id="goodpcCost">100000</span> Bitcoin</p>
+                </td>
+                <td class="amount"><span id="goodpcs">0</span></td>
+            </tr>
+        </table>
+    </div>
 
     <script>
         var score = 0; // Initial score matching the HTML
@@ -218,12 +215,15 @@
         var pcCost = 50000;
         var pcs = 0;
 
+        var goodpcCost = 100000;
+        var goodpcs = 0;
+
         function resetGame() {
             localStorage.removeItem("gameSave"); // Clear saved game state from localStorage
 
             // Reset all game variables to initial values
             score = 0;
-            clickingPower = 1;
+            clickingPower = 0.5;
             cursors = 0;
             cursorCost = 30;
             oldLaptops = 0;
@@ -249,92 +249,21 @@
             document.getElementById("laptops").innerHTML = laptops;
             document.getElementById("pcCost").innerHTML = pcCost;
             document.getElementById("pcs").innerHTML = pcs;
-            updatescorepersecond(); // Update any additional game/UI elements
-        }
+            document.getElementById("goodpcCost").innerHTML = goodpcCost;
+            document.getElementById("goodpcs").innerHTML = goodpcs;
 
-        function buyCursor() {
-            if (score >= cursorCost) {
-                score -= cursorCost;
-                cursors += 1;
-                cursorCost = Math.ceil(cursorCost * 1.15);
-
-                clickingPower += 1; // Increase clicking power by 1
-
-                document.getElementById("score").innerHTML = Math.floor(score);
-                document.getElementById("cursorCost").innerHTML = cursorCost;
-                document.getElementById("cursors").innerHTML = cursors;
-                updatescorepersecond();
+            // Clear interval if set
+            if (typeof interval !== "undefined") {
+                clearInterval(interval);
             }
-        }
 
-        function buyOldLaptop() {
-            if (score >= oldLaptopCost) {
-                score -= oldLaptopCost;
-                oldLaptops += 1;
-                oldLaptopCost = Math.ceil(oldLaptopCost * 1.15);
-
+            // Restart the interval for automatic score update
+            interval = setInterval(function() {
+                score += cursors + oldLaptops * 10 + oldPCs * 50 + laptops * 100 + pcs * 500 + goodpcs * 1000;
                 document.getElementById("score").innerHTML = Math.floor(score);
-                document.getElementById("oldLaptopCost").innerHTML = oldLaptopCost;
-                document.getElementById("oldLaptops").innerHTML = oldLaptops;
-                updatescorepersecond();
-            }
-        }
+            }, 1000);
 
-        function buyOldPC() {
-            if (score >= oldPCCost) {
-                score -= oldPCCost;
-                oldPCs += 1;
-                oldPCCost = Math.ceil(oldPCCost * 1.15);
-
-                document.getElementById("score").innerHTML = Math.floor(score);
-                document.getElementById("oldPCCost").innerHTML = oldPCCost;
-                document.getElementById("oldPCs").innerHTML = oldPCs;
-                updatescorepersecond();
-            }
-        }
-        
-        function buyLaptop() {
-            if (score >= laptopCost) {
-                score -= laptopCost;
-                laptops += 1;
-                laptopCost = Math.ceil(laptopCost * 1.15);
-
-                document.getElementById("score").innerHTML = Math.floor(score);
-                document.getElementById("laptopCost").innerHTML = laptopCost;
-                document.getElementById("laptops").innerHTML = laptops;
-                updatescorepersecond();
-            }
-        }
-
-        function buyPc() {
-            if (score >= pcCost) {
-                score -= pcCost;
-                pcs += 1;
-                pcCost = Math.ceil(pcCost * 1.15);
-
-                document.getElementById("score").innerHTML = Math.floor(score);
-                document.getElementById("pcCost").innerHTML = pcCost;
-                document.getElementById("pcs").innerHTML = pcs;
-                updatescorepersecond();
-            }
-        }
-
-        function buyGoodpc() {
-            if (score >= goodpcCost) {
-                score -= goodpcCost;
-                goodpcs += 1;
-                goodpcCost = Math.ceil(goodpcCost * 1.15);
-
-                document.getElementById("score").innerHTML = Math.floor(score);
-                document.getElementById("goodpcCost").innerHTML = goodpcCost;
-                document.getElementById("goodpcs").innerHTML = goodpcs;
-                updatescorepersecond();
-            }
-        }
-
-        function addToScore(amount) {
-            score += amount;
-            document.getElementById("score").innerHTML = Math.floor(score);
+            console.log("Game reset");
         }
 
         function saveGame() {
@@ -352,9 +281,10 @@
                 pcs: pcs,
                 pcCost: pcCost,
                 goodpcs: goodpcs,
-                goodpcs: goodpcCost,
+                goodpcCost: goodpcCost
             };
             localStorage.setItem("gameSave", JSON.stringify(gameSave));
+            console.log("Game saved");
         }
 
         function loadGame() {
@@ -374,40 +304,110 @@
                 pcCost = savedGame.pcCost;
                 goodpcs = savedGame.goodpcs;
                 goodpcCost = savedGame.goodpcCost;
+
+                document.getElementById("score").innerHTML = Math.floor(score);
+                document.getElementById("cursorCost").innerHTML = cursorCost;
+                document.getElementById("cursors").innerHTML = cursors;
+                document.getElementById("oldLaptopCost").innerHTML = oldLaptopCost;
+                document.getElementById("oldLaptops").innerHTML = oldLaptops;
+                document.getElementById("oldPCCost").innerHTML = oldPCCost;
+                document.getElementById("oldPCs").innerHTML = oldPCs;
+                document.getElementById("laptopCost").innerHTML = laptopCost;
+                document.getElementById("laptops").innerHTML = laptops;
+                document.getElementById("pcCost").innerHTML = pcCost;
+                document.getElementById("pcs").innerHTML = pcs;
+                document.getElementById("goodpcCost").innerHTML = goodpcCost;
+                document.getElementById("goodpcs").innerHTML = goodpcs;
+
+                console.log("Game loaded");
+            } else {
+                console.log("No saved game found");
             }
-            document.getElementById("score").innerHTML = Math.floor(score);
-            document.getElementById("cursorCost").innerHTML = cursorCost;
-            document.getElementById("cursors").innerHTML = cursors;
-            document.getElementById("oldLaptopCost").innerHTML = oldLaptopCost;
-            document.getElementById("oldLaptops").innerHTML = oldLaptops;
-            document.getElementById("oldPCCost").innerHTML = oldPCCost;
-            document.getElementById("oldPCs").innerHTML = oldPCs;
-            document.getElementById("laptopCost").innerHTML = laptopCost;
-            document.getElementById("laptops").innerHTML = laptops;
-            document.getElementById("pcCost").innerHTML = pcCost;
-            document.getElementById("pcs").innerHTML = pcs;
-            document.getElementById("goodpcCost").innerHTML = goodpcCost;
-            document.getElementById("goodpcs").innerHTML = goodpcs;
-
-            updatescorepersecond();
         }
 
-        function updatescorepersecond() {
-            var scorePerSecond = oldLaptops * 1 + oldPCs * 2 + laptops * 10 + pcs * 25 + goodpcs * 40;
-            document.getElementById("scorepersecond").innerHTML = scorePerSecond;
+        function addToScore(amount) {
+            score += amount;
+            document.getElementById("score").innerHTML = Math.floor(score);
+            document.getElementById("scorepersecond").innerHTML = clickingPower.toFixed(2);
         }
 
-        setInterval(function() {
-            score += oldLaptops * 1 + oldPCs * 2 + laptops * 10 + pcs * 25 + goodpcs * 40;
-            document.getElementById("score").innerHTML = Math.floor(score);
-            updatescorepersecond();
-        
-            document.title = score + " BTC - Bitcoin Clicker";
-        }, 1000); // 1 second
+        function buyCursor() {
+            if (score >= cursorCost) {
+                score -= cursorCost;
+                cursors++;
+                cursorCost = Math.floor(cursorCost * 1.1);
+                document.getElementById("score").innerHTML = Math.floor(score);
+                document.getElementById("cursorCost").innerHTML = cursorCost;
+                document.getElementById("cursors").innerHTML = cursors;
+            }
+        }
 
-        setInterval(saveGame, 30000); // Save game every 30 seconds
+        function buyOldLaptop() {
+            if (score >= oldLaptopCost) {
+                score -= oldLaptopCost;
+                oldLaptops++;
+                oldLaptopCost = Math.floor(oldLaptopCost * 1.1);
+                document.getElementById("score").innerHTML = Math.floor(score);
+                document.getElementById("oldLaptopCost").innerHTML = oldLaptopCost;
+                document.getElementById("oldLaptops").innerHTML = oldLaptops;
+            }
+        }
 
-        window.onload = loadGame;
+        function buyOldPC() {
+            if (score >= oldPCCost) {
+                score -= oldPCCost;
+                oldPCs++;
+                oldPCCost = Math.floor(oldPCCost * 1.1);
+                document.getElementById("score").innerHTML = Math.floor(score);
+                document.getElementById("oldPCCost").innerHTML = oldPCCost;
+                document.getElementById("oldPCs").innerHTML = oldPCs;
+            }
+        }
+
+        function buyLaptop() {
+            if (score >= laptopCost) {
+                score -= laptopCost;
+                laptops++;
+                laptopCost = Math.floor(laptopCost * 1.1);
+                document.getElementById("score").innerHTML = Math.floor(score);
+                document.getElementById("laptopCost").innerHTML = laptopCost;
+                document.getElementById("laptops").innerHTML = laptops;
+            }
+        }
+
+        function buyPc() {
+            if (score >= pcCost) {
+                score -= pcCost;
+                pcs++;
+                pcCost = Math.floor(pcCost * 1.1);
+                document.getElementById("score").innerHTML = Math.floor(score);
+                document.getElementById("pcCost").innerHTML = pcCost;
+                document.getElementById("pcs").innerHTML = pcs;
+            }
+        }
+
+        function buyGoodpc() {
+            if (score >= goodpcCost) {
+                score -= goodpcCost;
+                goodpcs++;
+                goodpcCost = Math.floor(goodpcCost * 1.1);
+                document.getElementById("score").innerHTML = Math.floor(score);
+                document.getElementById("goodpcCost").innerHTML = goodpcCost;
+                document.getElementById("goodpcs").innerHTML = goodpcs;
+            }
+        }
+
+        window.onload = function() {
+            loadGame();
+            setInterval(function() {
+                score += cursors + oldLaptops * 10 + oldPCs * 50 + laptops * 100 + pcs * 500 + goodpcs * 1000;
+                document.getElementById("score").innerHTML = Math.floor(score);
+            }, 1000);
+        };
+
+        window.onbeforeunload = function() {
+            saveGame();
+        };
     </script>
 </body>
 </html>
