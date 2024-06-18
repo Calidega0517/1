@@ -187,9 +187,21 @@
         </table>
     </div>
 
+    <table class="shopButton" onclick="buyGoodpc()">
+        <tr>
+            <td class="image"><img src="Assets/6.png"></td>
+            <td class="nameAndCost">
+                <p>Good PC</p>
+                <p><span id="goodpcCost">100000</span> Bitcoin</p>
+            </td>
+            <td class="amount"><span id="goodpcs">0</span></td>
+        </tr>
+    </table>
+</div>
+
     <script>
         var score = 0; // Initial score matching the HTML
-        var clickingPower = 1; // Initial clicking power
+        var clickingPower = 0.5; // Initial clicking power
 
         var cursorCost = 30;
         var cursors = 0;
@@ -222,6 +234,8 @@
             laptopCost = 10000;
             pcs = 0;
             pcCost = 50000;
+            goodpcs = 0;
+            goodpcCost = 100000;
 
             // Update HTML elements with reset values
             document.getElementById("score").innerHTML = Math.floor(score);
@@ -305,6 +319,19 @@
             }
         }
 
+        function buyGoodpc() {
+            if (score >= goodpcCost) {
+                score -= goodpcCost;
+                goodpcs += 1;
+                goodpcCost = Math.ceil(goodpcCost * 1.15);
+
+                document.getElementById("score").innerHTML = Math.floor(score);
+                document.getElementById("goodpcCost").innerHTML = goodpcCost;
+                document.getElementById("goodpcs").innerHTML = goodpcs;
+                updatescorepersecond();
+            }
+        }
+
         function addToScore(amount) {
             score += amount;
             document.getElementById("score").innerHTML = Math.floor(score);
@@ -323,7 +350,9 @@
                 laptops: laptops,
                 laptopCost: laptopCost,
                 pcs: pcs,
-                pcCost: pcCost
+                pcCost: pcCost,
+                goodpcs: goodpcs,
+                goodpcs: goodpcCost,
             };
             localStorage.setItem("gameSave", JSON.stringify(gameSave));
         }
@@ -343,6 +372,8 @@
                 laptopCost = savedGame.laptopCost;
                 pcs = savedGame.pcs;
                 pcCost = savedGame.pcCost;
+                goodpcs = savedGame.goodpcs;
+                goodpcCost = savedGame.goodpcCost;
             }
             document.getElementById("score").innerHTML = Math.floor(score);
             document.getElementById("cursorCost").innerHTML = cursorCost;
@@ -355,16 +386,19 @@
             document.getElementById("laptops").innerHTML = laptops;
             document.getElementById("pcCost").innerHTML = pcCost;
             document.getElementById("pcs").innerHTML = pcs;
+            document.getElementById("goodpcCost").innerHTML = goodpcCost;
+            document.getElementById("goodpcs").innerHTML = goodpcs;
+
             updatescorepersecond();
         }
 
         function updatescorepersecond() {
-            var scorePerSecond = oldLaptops * 1 + oldPCs * 2 + laptops * 10 + pcs * 25;
+            var scorePerSecond = oldLaptops * 1 + oldPCs * 2 + laptops * 10 + pcs * 25 + goodpcs * 40;
             document.getElementById("scorepersecond").innerHTML = scorePerSecond;
         }
 
         setInterval(function() {
-            score += oldLaptops * 1 + oldPCs * 2 + laptops * 10 + pcs * 25;
+            score += oldLaptops * 1 + oldPCs * 2 + laptops * 10 + pcs * 25 + goodpcs * 40;
             document.getElementById("score").innerHTML = Math.floor(score);
             updatescorepersecond();
         
