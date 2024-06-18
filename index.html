@@ -263,7 +263,7 @@
                 document.getElementById("score").innerHTML = Math.floor(score);
             }, 1000);
 
-            alert("Your Game Hs Been Reset");
+            console.log("Game reset");
         }
 
         function saveGame() {
@@ -335,7 +335,7 @@
             if (score >= cursorCost) {
                 score -= cursorCost;
                 cursors++;
-                cursorCost = Math.floor(cursorCost * 1.2);
+                cursorCost = Math.floor(cursorCost * 1.1);
                 document.getElementById("score").innerHTML = Math.floor(score);
                 document.getElementById("cursorCost").innerHTML = cursorCost;
                 document.getElementById("cursors").innerHTML = cursors;
