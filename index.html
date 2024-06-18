@@ -241,7 +241,7 @@
         function buyCursor() {
             if (score >= cursorCost) {
                 score -= cursorCost;
-                cursors += 1;
+                cursors += 0.5;
                 cursorCost = Math.ceil(cursorCost * 1.15);
 
                 clickingPower += 1; // Increase clicking power by 1
