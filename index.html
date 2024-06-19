@@ -360,6 +360,7 @@
                 goodpcCost = savedGame.goodpcCost;
                 updateUI();
                 console.log("Game loaded");
+                alert("Loaded Game")
             } else {
                 console.log("No saved game found");
             }
@@ -368,6 +369,7 @@
         // Function to reset the game state
         function resetGame() {
             localStorage.removeItem("gameSave"); // Clear saved game state from localStorage
+            alert("Your Game Has Been Reset")
 
             // Reset all game variables to initial values
             score = 0;
