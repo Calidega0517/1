@@ -15,6 +15,12 @@
             background-color: rgb(44, 43, 43);
             font-family: 'Roboto', sans-serif;
             color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
         }
 
         #reset-button {
@@ -29,25 +35,32 @@
             border-radius: 9px;
         }
 
+        .main-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            width: 90%;
+            max-width: 1200px;
+        }
+
         .sectionLeft {
-            float: left;
-            width: 80%;
+            flex: 3;
+            text-align: center;
         }
 
         .sectionRight {
-            float: right;
-            width: 20%;
+            flex: 1;
+            padding-left: 20px;
         }
 
         .scoreContainer {
             background-color: rgba(209, 201, 201, 0.6);
-            width: 50%;
             padding: 10px;
             border-radius: 20px;
             font-size: 24px;
             font-weight: bold;
             text-align: center;
-            margin: 0 auto; /* Center the score container */
+            margin: 0 auto;
         }
 
         .clickerContainer {
@@ -108,8 +121,9 @@
     </style>
 </head>
 <body>
-    <div class="sectionLeft">
-        <center>
+    <button id="reset-button" onclick="resetGame()">Reset Game</button>
+    <div class="main-container">
+        <div class="sectionLeft">
             <div class="scoreContainer">
                 <span id="score">0</span> Bitcoin<br>
                 <span id="scorepersecond">0.00</span> Bitcoin Per Second
@@ -121,91 +135,107 @@
             <div class="sectionFooter">
                 <h5>BTC Stands For Bitcoin</h5>
             </div>
-        </center>
-    </div>
+        </div>
+        <div class="sectionRight">
+            <table class="shopButton" onclick="buyCursor()">
+                <tr>
+                    <td class="image"><img src="Assets/upgrade1.png"></td>
+                    <td class="nameAndCost">
+                        <p>Cursor</p>
+                        <p><span id="cursorCost">30</span> Bitcoin</p>
+                    </td>
+                    <td class="amount"><span id="cursors">0</span></td>
+                </tr>
+            </table>
 
-    <div id="game-container">
-        <button id="reset-button" onclick="resetGame()">Reset Game</button>
-    </div>
+            <table class="shopButton" onclick="buyOldLaptop()">
+                <tr>
+                    <td class="image"><img src="Assets/3.png"></td>
+                    <td class="nameAndCost">
+                        <p>Old Laptop</p>
+                        <p><span id="oldLaptopCost">300</span> Bitcoin</p>
+                    </td>
+                    <td class="amount"><span id="oldLaptops">0</span></td>
+                </tr>
+            </table>
 
-    <div class="sectionRight">
-        <table class="shopButton" onclick="buyCursor()">
-            <tr>
-                <td class="image"><img src="Assets/upgrade1.png"></td>
-                <td class="nameAndCost">
-                    <p>Cursor</p>
-                    <p><span id="cursorCost">30</span> Bitcoin</p>
-                </td>
-                <td class="amount"><span id="cursors">0</span></td>
-            </tr>
-        </table>
+            <table class="shopButton" onclick="buyOldPC()">
+                <tr>
+                    <td class="image"><img src="Assets/3.png"></td>
+                    <td class="nameAndCost">
+                        <p>Old PC</p>
+                        <p><span id="oldPCCost">1,000</span> Bitcoin</p>
+                    </td>
+                    <td class="amount"><span id="oldPCs">0</span></td>
+                </tr>
+            </table>
 
-        <table class="shopButton" onclick="buyOldLaptop()">
-            <tr>
-                <td class="image"><img src="Assets/3.png"></td>
-                <td class="nameAndCost">
-                    <p>Old Laptop</p>
-                    <p><span id="oldLaptopCost">500</span> Bitcoin</p>
-                </td>
-                <td class="amount"><span id="oldLaptops">0</span></td>
-            </tr>
-        </table>
+            <table class="shopButton" onclick="buyLaptop()">
+                <tr>
+                    <td class="image"><img src="Assets/4.png"></td>
+                    <td class="nameAndCost">
+                        <p>Laptop</p>
+                        <p><span id="laptopCost">10,000</span> Bitcoin</p>
+                    </td>
+                    <td class="amount"><span id="laptops">0</span></td>
+                </tr>
+            </table>
 
-        <table class="shopButton" onclick="buyOldPC()">
-            <tr>
-                <td class="image"><img src="Assets/3.png"></td>
-                <td class="nameAndCost">
-                    <p>Old PC</p>
-                    <p><span id="oldPCCost">1000</span> Bitcoin</p>
-                </td>
-                <td class="amount"><span id="oldPCs">0</span></td>
-            </tr>
-        </table>
+            <table class="shopButton" onclick="buyPc()">
+                <tr>
+                    <td class="image"><img src="Assets/5.png"></td>
+                    <td class="nameAndCost">
+                        <p>Pc</p>
+                        <p><span id="pcCost">50,000</span> Bitcoin</p>
+                    </td>
+                    <td class="amount"><span id="pcs">0</span></td>
+                </tr>
+            </table>
 
-        <table class="shopButton" onclick="buyLaptop()">
-            <tr>
-                <td class="image"><img src="Assets/4.png"></td>
-                <td class="nameAndCost">
-                    <p>Laptop</p>
-                    <p><span id="laptopCost">10000</span> Bitcoin</p>
-                </td>
-                <td class="amount"><span id="laptops">0</span></td>
-            </tr>
-        </table>
+            <table class="shopButton" onclick="buyGoodpc()">
+                <tr>
+                    <td class="image"><img src="Assets/6.png"></td>
+                    <td class="nameAndCost">
+                        <p>Good PC</p>
+                        <p><span id="goodpcCost">100,000</span> Bitcoin</p>
+                    </td>
+                    <td class="amount"><span id="goodpcs">0</span></td>
+                </tr>
+            </table>
 
-        <table class="shopButton" onclick="buyPc()">
-            <tr>
-                <td class="image"><img src="Assets/5.png"></td>
-                <td class="nameAndCost">
-                    <p>Pc</p>
-                    <p><span id="pcCost">50000</span> Bitcoin</p>
-                </td>
-                <td class="amount"><span id="pcs">0</span></td>
-            </tr>
-        </table>
+            <table class="shopButton" onclick="buyGoodlaptop()">
+                <tr>
+                    <td class="image"><img src="Assets/7.png"></td>
+                    <td class="nameAndCost">
+                        <p>Gaming Laptop</p>
+                        <p><span id="goodlaptopCost">1,000,000</span> Bitcoin</p>
+                    </td>
+                    <td class="amount"><span id="goodlaptops">0</span></td>
+                </tr>
+            </table>
 
-        <table class="shopButton" onclick="buyGoodpc()">
-            <tr>
-                <td class="image"><img src="Assets/6.png"></td>
-                <td class="nameAndCost">
-                    <p>Good PC</p>
-                    <p><span id="goodpcCost">100000</span> Bitcoin</p>
-                </td>
-                <td class="amount"><span id="goodpcs">0</span></td>
-            </tr>
-        </table>
+            <table class="shopButton" onclick="buyGpc()">
+                <tr>
+                    <td class="image"><img src="Assets/8.png"></td>
+                    <td class="nameAndCost">
+                        <p>Gaming PC</p>
+                        <p><span id="gpcCost">50,000,000</span> Bitcoin</p>
+                    </td>
+                    <td class="amount"><span id="gpcs">0</span></td>
+                </tr>
+            </table>
+        </div>
     </div>
 
     <script>
         var score = 0; // Initial score matching the HTML
         var clickingPower = 1; // Initial clicking power
         var scorePersecond = 0; // Initial score per second
-        var hasOldLaptopUpgrade = false; // Flag for Old Laptop Upgrade
 
         var cursorCost = 30;
         var cursors = 0;
 
-        var oldLaptopCost = 500;
+        var oldLaptopCost = 300;
         var oldLaptops = 0;
 
         var oldPCCost = 1000;
@@ -220,196 +250,166 @@
         var goodpcCost = 100000;
         var goodpcs = 0;
 
+        var goodlaptopCost = 1000000;
+        var goodlaptops = 0;
+
+        var gpcCost = 50000000;
+        var gpcs = 0;
+
         // Function to add to score when clicking on the bitcoin image
         function addToScore(amount) {
             score += amount;
             document.getElementById("score").innerHTML = Math.round(score);
         }
 
-        // Function to update the UI based on current game state
-        function updateUI() {
-            document.getElementById("score").innerHTML = Math.round(score);
-            document.getElementById("scorepersecond").innerHTML = scorePersecond.toFixed(2);
-
-            document.getElementById("cursors").textContent = cursors;
-            document.getElementById("cursorCost").textContent = cursorCost;
-
-            document.getElementById("oldLaptops").textContent = oldLaptops;
-            document.getElementById("oldLaptopCost").textContent = oldLaptopCost;
-
-            document.getElementById("oldPCs").textContent = oldPCs;
-            document.getElementById("oldPCCost").textContent = oldPCCost;
-
-            document.getElementById("laptops").textContent = laptops;
-            document.getElementById("laptopCost").textContent = laptopCost;
-
-            document.getElementById("pcs").textContent = pcs;
-            document.getElementById("pcCost").textContent = pcCost;
-
-            document.getElementById("goodpcs").textContent = goodpcs;
-            document.getElementById("goodpcCost").textContent = goodpcCost;
-        }
-
-        // Function to buy a cursor
+        // Function to handle buying a cursor
         function buyCursor() {
             if (score >= cursorCost) {
-                cursors++;
                 score -= cursorCost;
-                cursorCost = Math.ceil(cursorCost * 1.15); // Increase cost by 15%
-                clickingPower += 0.1; // Increase clicking power
-                updateUI();
+                cursors++;
+                cursorCost = Math.round(cursorCost * 1.1);
+                clickingPower++;
+                updateShop();
             }
         }
 
-        // Function to buy an Old Laptop
+        // Function to handle buying an old laptop
         function buyOldLaptop() {
             if (score >= oldLaptopCost) {
-                oldLaptops++;
                 score -= oldLaptopCost;
-                oldLaptopCost = Math.ceil(oldLaptopCost * 1.15); // Increase cost by 15%
-                scorePersecond += 10; // Increase score per second by 10
-                updateUI();
+                oldLaptops++;
+                oldLaptopCost = Math.round(oldLaptopCost * 1.1);
+                scorePersecond += 10;
+                updateShop();
             }
         }
 
-        // Function to buy an Old PC
+        // Function to handle buying an old PC
         function buyOldPC() {
             if (score >= oldPCCost) {
-                oldPCs++;
                 score -= oldPCCost;
-                oldPCCost = Math.ceil(oldPCCost * 1.15); // Increase cost by 15%
-                scorePersecond += 50; // Increase score per second by 50
-                updateUI();
+                oldPCs++;
+                oldPCCost = Math.round(oldPCCost * 1.1);
+                scorePersecond += 100;
+                updateShop();
             }
         }
 
-        // Function to buy a Laptop
+        // Function to handle buying a laptop
         function buyLaptop() {
             if (score >= laptopCost) {
-                laptops++;
                 score -= laptopCost;
-                laptopCost = Math.ceil(laptopCost * 1.15); // Increase cost by 15%
-                scorePersecond += 100; // Increase score per second by 100
-                updateUI();
+                laptops++;
+                laptopCost = Math.round(laptopCost * 1.1);
+                scorePersecond += 1000;
+                updateShop();
             }
         }
 
-        // Function to buy a PC
+        // Function to handle buying a PC
         function buyPc() {
             if (score >= pcCost) {
-                pcs++;
                 score -= pcCost;
-                pcCost = Math.ceil(pcCost * 1.15); // Increase cost by 15%
-                scorePersecond += 500; // Increase score per second by 500
-                updateUI();
+                pcs++;
+                pcCost = Math.round(pcCost * 1.1);
+                scorePersecond += 5000;
+                updateShop();
             }
         }
 
-        // Function to buy a Good PC
+        // Function to handle buying a good PC
         function buyGoodpc() {
             if (score >= goodpcCost) {
-                goodpcs++;
                 score -= goodpcCost;
-                goodpcCost = Math.ceil(goodpcCost * 1.15); // Increase cost by 15%
-                scorePersecond += 1000; // Increase score per second by 1000
-                updateUI();
+                goodpcs++;
+                goodpcCost = Math.round(goodpcCost * 1.1);
+                scorePersecond += 10000;
+                updateShop();
             }
         }
 
-        // Function to save game state to localStorage
-        function saveGame() {
-            var gameSave = {
-                score: score,
-                clickingPower: clickingPower,
-                scorePersecond: scorePersecond,
-                cursors: cursors,
-                cursorCost: cursorCost,
-                oldLaptops: oldLaptops,
-                oldLaptopCost: oldLaptopCost,
-                oldPCs: oldPCs,
-                oldPCCost: oldPCCost,
-                laptops: laptops,
-                laptopCost: laptopCost,
-                pcs: pcs,
-                pcCost: pcCost,
-                goodpcs: goodpcs,
-                goodpcCost: goodpcCost
-            };
-            localStorage.setItem("gameSave", JSON.stringify(gameSave));
-            console.log("Game saved");
-        }
-
-        // Function to load game state from localStorage
-        function loadGame() {
-            var savedGame = JSON.parse(localStorage.getItem("gameSave"));
-            if (savedGame) {
-                score = savedGame.score;
-                clickingPower = savedGame.clickingPower;
-                scorePersecond = savedGame.scorePersecond;
-                cursors = savedGame.cursors;
-                cursorCost = savedGame.cursorCost;
-                oldLaptops = savedGame.oldLaptops;
-                oldLaptopCost = savedGame.oldLaptopCost;
-                oldPCs = savedGame.oldPCs;
-                oldPCCost = savedGame.oldPCCost;
-                laptops = savedGame.laptops;
-                laptopCost = savedGame.laptopCost;
-                pcs = savedGame.pcs;
-                pcCost = savedGame.pcCost;
-                goodpcs = savedGame.goodpcs;
-                goodpcCost = savedGame.goodpcCost;
-                updateUI();
-                console.log("Game loaded");
-                alert("Loaded Game")
-            } else {
-                console.log("No saved game found");
+        // Function to handle buying a good laptop
+        function buyGoodlaptop() {
+            if (score >= goodlaptopCost) {
+                score -= goodlaptopCost;
+                goodlaptops++;
+                goodlaptopCost = Math.round(goodlaptopCost * 1.1);
+                scorePersecond += 100000;
+                updateShop();
             }
         }
 
-        // Function to reset the game state
-        function resetGame() {
-            localStorage.removeItem("gameSave"); // Clear saved game state from localStorage
-            alert("Your Game Has Been Reset")
-
-            // Reset all game variables to initial values
-            score = 0;
-            clickingPower = 1;
-            cursors = 0;
-            cursorCost = 30;
-            oldLaptops = 0;
-            oldLaptopCost = 300;
-            oldPCs = 0;
-            oldPCCost = 1000;
-            laptops = 0;
-            laptopCost = 10000;
-            pcs = 0;
-            pcCost = 50000;
-            goodpcs = 0;
-            goodpcCost = 100000;
-            hasOldLaptopUpgrade = false; // Reset upgrade state
-            scorePersecond = 0;
-
-            // Update HTML elements with reset values
-            updateUI();
-
-            console.log("Game reset");
+        // Function to handle buying a gaming PC
+        function buyGpc() {
+            if (score >= gpcCost) {
+                score -= gpcCost;
+                gpcs++;
+                gpcCost = Math.round(gpcCost * 1.1);
+                scorePersecond += 1000000;
+                updateShop();
+            }
         }
 
-        // Initial update of UI elements
-        updateUI();
-
-        // Load game state if there's a saved game
-        loadGame();
-
-        // Automatic score increase every second based on owned items
-        var interval = setInterval(function() {
-            score += oldLaptops * 10 + oldPCs * 50 + laptops * 100 + pcs * 500 + goodpcs * 1000;
+        // Function to update shop display
+        function updateShop() {
             document.getElementById("score").innerHTML = Math.round(score);
             document.getElementById("scorepersecond").innerHTML = scorePersecond.toFixed(2);
-        }, 1000);
+            document.getElementById("cursorCost").innerHTML = cursorCost;
+            document.getElementById("cursors").innerHTML = cursors;
+            document.getElementById("oldLaptopCost").innerHTML = oldLaptopCost;
+            document.getElementById("oldLaptops").innerHTML = oldLaptops;
+            document.getElementById("oldPCCost").innerHTML = oldPCCost;
+            document.getElementById("oldPCs").innerHTML = oldPCs;
+            document.getElementById("laptopCost").innerHTML = laptopCost;
+            document.getElementById("laptops").innerHTML = laptops;
+            document.getElementById("pcCost").innerHTML = pcCost;
+            document.getElementById("pcs").innerHTML = pcs;
+            document.getElementById("goodpcCost").innerHTML = goodpcCost;
+            document.getElementById("goodpcs").innerHTML = goodpcs;
+            document.getElementById("goodlaptopCost").innerHTML = goodlaptopCost;
+            document.getElementById("goodlaptops").innerHTML = goodlaptops;
+            document.getElementById("gpcCost").innerHTML = gpcCost;
+            document.getElementById("gpcs").innerHTML = gpcs;
+        }
 
-        // Save the game state every 30 seconds (for demonstration purposes)
-        setInterval(saveGame, 30000);
+        // Function to reset the game
+        function resetGame() {
+            score = 0;
+            clickingPower = 1;
+            scorePersecond = 0;
+
+            cursorCost = 30;
+            cursors = 0;
+
+            oldLaptopCost = 300;
+            oldLaptops = 0;
+
+            oldPCCost = 1000;
+            oldPCs = 0;
+
+            laptopCost = 10000;
+            laptops = 0;
+
+            pcCost = 50000;
+            pcs = 0;
+
+            goodpcCost = 100000;
+            goodpcs = 0;
+
+            goodlaptopCost = 1000000;
+            goodlaptops = 0;
+
+            gpcCost = 50000000;
+            gpcs = 0;
+
+            updateShop();
+        }
+
+        // Function to increment the score per second
+        setInterval(function() {
+            score += scorePersecond / 10;
+            document.getElementById("score").innerHTML = Math.round(score);
+        }, 100);
     </script>
 </body>
 </html>
