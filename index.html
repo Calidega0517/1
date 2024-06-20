@@ -82,6 +82,12 @@
             border-radius: 10px;
             width: 100%;
             margin: 10px 0px;
+            opacity: 1;
+        }
+
+        .shopButton.disabled {
+            opacity: 0.5;
+            pointer-events: none;
         }
 
         .shopButton:hover {
@@ -137,7 +143,7 @@
             </div>
         </div>
         <div class="sectionRight">
-            <table class="shopButton" onclick="buyCursor()">
+            <table id="cursor" class="shopButton" onclick="buyCursor()">
                 <tr>
                     <td class="image"><img src="Assets/upgrade1.png"></td>
                     <td class="nameAndCost">
@@ -148,7 +154,7 @@
                 </tr>
             </table>
 
-            <table class="shopButton" onclick="buyOldLaptop()">
+            <table id="oldLaptop" class="shopButton" onclick="buyOldLaptop()">
                 <tr>
                     <td class="image"><img src="Assets/3.png"></td>
                     <td class="nameAndCost">
@@ -159,7 +165,7 @@
                 </tr>
             </table>
 
-            <table class="shopButton" onclick="buyOldPC()">
+            <table id="oldPC" class="shopButton" onclick="buyOldPC()">
                 <tr>
                     <td class="image"><img src="Assets/3.png"></td>
                     <td class="nameAndCost">
@@ -170,7 +176,7 @@
                 </tr>
             </table>
 
-            <table class="shopButton" onclick="buyLaptop()">
+            <table id="laptop" class="shopButton" onclick="buyLaptop()">
                 <tr>
                     <td class="image"><img src="Assets/4.png"></td>
                     <td class="nameAndCost">
@@ -181,7 +187,7 @@
                 </tr>
             </table>
 
-            <table class="shopButton" onclick="buyPc()">
+            <table id="pc" class="shopButton" onclick="buyPc()">
                 <tr>
                     <td class="image"><img src="Assets/5.png"></td>
                     <td class="nameAndCost">
@@ -192,7 +198,7 @@
                 </tr>
             </table>
 
-            <table class="shopButton" onclick="buyGoodpc()">
+            <table id="goodpc" class="shopButton" onclick="buyGoodpc()">
                 <tr>
                     <td class="image"><img src="Assets/6.png"></td>
                     <td class="nameAndCost">
@@ -203,7 +209,7 @@
                 </tr>
             </table>
 
-            <table class="shopButton" onclick="buyGoodlaptop()">
+            <table id="goodlaptop" class="shopButton" onclick="buyGoodlaptop()">
                 <tr>
                     <td class="image"><img src="Assets/7.png"></td>
                     <td class="nameAndCost">
@@ -214,7 +220,7 @@
                 </tr>
             </table>
 
-            <table class="shopButton" onclick="buyGpc()">
+            <table id="gpc" class="shopButton" onclick="buyGpc()">
                 <tr>
                     <td class="image"><img src="Assets/8.png"></td>
                     <td class="nameAndCost">
@@ -260,6 +266,7 @@
         function addToScore(amount) {
             score += amount;
             document.getElementById("score").innerHTML = Math.round(score);
+            updateShop(); // Update shop every time score changes
         }
 
         // Function to handle buying a cursor
@@ -370,6 +377,16 @@
             document.getElementById("goodlaptops").innerHTML = goodlaptops;
             document.getElementById("gpcCost").innerHTML = gpcCost;
             document.getElementById("gpcs").innerHTML = gpcs;
+
+            // Darken out upgrades if not enough Bitcoin to buy them
+            document.getElementById("cursor").className = score >= cursorCost ? "shopButton" : "shopButton disabled";
+            document.getElementById("oldLaptop").className = score >= oldLaptopCost ? "shopButton" : "shopButton disabled";
+            document.getElementById("oldPC").className = score >= oldPCCost ? "shopButton" : "shopButton disabled";
+            document.getElementById("laptop").className = score >= laptopCost ? "shopButton" : "shopButton disabled";
+            document.getElementById("pc").className = score >= pcCost ? "shopButton" : "shopButton disabled";
+            document.getElementById("goodpc").className = score >= goodpcCost ? "shopButton" : "shopButton disabled";
+            document.getElementById("goodlaptop").className = score >= goodlaptopCost ? "shopButton" : "shopButton disabled";
+            document.getElementById("gpc").className = score >= gpcCost ? "shopButton" : "shopButton disabled";
         }
 
         // Function to reset the game
@@ -409,6 +426,7 @@
         setInterval(function() {
             score += scorePersecond / 10;
             document.getElementById("score").innerHTML = Math.round(score);
+            updateShop(); // Update shop every second
         }, 100);
     </script>
 </body>
