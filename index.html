@@ -3,261 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BTC Clicker</title>
+    <title>Clicking Game</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-
         body {
-            -webkit-user-select: none; /* Safari */
-            -moz-user-select: none; /* Firefox */
-            -ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none; /* Non-prefixed version, currently supported by Chrome, Opera and Safari */
-            background-color: rgb(44, 43, 43);
-            font-family: 'Roboto', sans-serif;
-            color: #ffffff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            height: 100vh;
-            margin: 0;
+            font-family: Arial, sans-serif;
         }
-
-        #reset-button {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            padding: 10px;
-            background-color: #f44336;
-            color: white;
-            border: none;
-            cursor: pointer;
-            border-radius: 9px;
-        }
-
-        .main-container {
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            width: 90%;
-            max-width: 1200px;
-        }
-
-        .sectionLeft {
-            flex: 3;
-            text-align: center;
-        }
-
-        .sectionRight {
-            flex: 1;
-            padding-left: 20px;
-            max-height: 80vh; /* Adjust as needed */
-            overflow-y: auto; /* Enable vertical scrolling */
-        }
-
-        .scoreContainer {
-            background-color: rgba(209, 201, 201, 0.6);
-            padding: 10px;
-            border-radius: 20px;
-            font-size: 24px;
-            font-weight: bold;
-            text-align: center;
+        .container {
+            max-width: 600px;
             margin: 0 auto;
-        }
-
-        .clickerContainer {
-            position: relative;
-            transition: all .2s ease-in-out;
-        }
-
-        .clickerContainer img:hover { 
-            transform: scale(1.1);
-        }
-
-        .clickerContainer img:active {  
-            transform: scale(0.99);
-        }
-
-        .shopButton {
-            background-color: #b5b5b5;
-            transition: all .2s ease-in-out;
-            border-radius: 10px;
-            width: 100%;
-            margin: 10px 0px;
-            opacity: 1;
-        }
-
-        .shopButton.disabled {
-            opacity: 0.5;
-            pointer-events: none;
-            background-color: #9c9898;
-        }
-
-        .shopButton:hover {
-            background-color: #dfdada;
-        }
-
-        .shopButton.disabled:hover {
-            background-color: #9c9898;
-        }
-
-        .shopButton img {
-            height: 64px;
-            width: 64px;
-        }
-
-        .nameAndCost p {
-            margin: 0px;
-        }
-
-        .nameAndCost p:first-of-type {
-            font-size: 24px;
-        }
-
-        .amount {
-            font-size: 48px;
-            color: #595959;
-            width: 15%;
-        }
-
-        img {
-            -webkit-user-drag: none;
-            -khtml-user-drag: none;
-            -moz-user-drag: none;
-            -o-user-drag: none;
-        }
-
-        .sectionFooter {
-            margin-top: 20px;
             text-align: center;
         }
-
-        .score1 {
-            color: yellow;
+        .score-board {
+            margin-top: 20px;
         }
-        
-        .sps {
-            color: yellow;
+        .button-container {
+            margin-top: 20px;
+        }
+        .button-container button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .button-container button.disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
         }
     </style>
 </head>
 <body>
-    <button id="reset-button" onclick="resetGame()">Reset Game</button>
-    <div class="main-container">
-        <div class="sectionLeft">
-            <div class="scoreContainer">
-                <span id="score" class="score1">0</span> Bitcoin<br>
-                <span id="scorepersecond" class="sps">0.00</span> Bitcoin Per Second
-            </div>
-            <br>
-            <div class="clickerContainer">
-                <img src="Assets/Bitcoin.png" height="256px" width="256px" onclick="addToScore(clickingPower)" draggable="false">
-            </div>
-            <div class="sectionFooter">
-                <h5>BTC Stands For Bitcoin</h5>
-            </div>
+    <div class="container">
+        <h1>Clicking Game</h1>
+        <div class="score-board">
+            <h2>Score: <span id="score">0</span> Bitcoin</h2>
+            <h3>Score per second: <span id="scorepersecond">0</span></h3>
         </div>
-        <div class="sectionRight">
-            <div class="upgrades-container">
-                <table id="cursor" class="shopButton" onclick="buyCursor()">
-                    <tr>
-                        <td class="image"><img src="Assets/upgrade1.png"></td>
-                        <td class="nameAndCost">
-                            <p>Cursor</p>
-                            <p><span id="cursorCost">30</span> Bitcoin</p>
-                        </td>
-                        <td class="amount"><span id="cursors">0</span></td>
-                    </tr>
-                </table>
-
-                <table id="oldLaptop" class="shopButton" onclick="buyOldLaptop()">
-                    <tr>
-                        <td class="image"><img src="Assets/3.png"></td>
-                        <td class="nameAndCost">
-                            <p>Old Laptop</p>
-                            <p><span id="oldLaptopCost">300</span> Bitcoin</p>
-                        </td>
-                        <td class="amount"><span id="oldLaptops">0</span></td>
-                    </tr>
-                </table>
-
-                <table id="oldPC" class="shopButton" onclick="buyOldPC()">
-                    <tr>
-                        <td class="image"><img src="Assets/3.png"></td>
-                        <td class="nameAndCost">
-                            <p>Old PC</p>
-                            <p><span id="oldPCCost">1,000</span> Bitcoin</p>
-                        </td>
-                        <td class="amount"><span id="oldPCs">0</span></td>
-                    </tr>
-                </table>
-
-                <table id="laptop" class="shopButton" onclick="buyLaptop()">
-                    <tr>
-                        <td class="image"><img src="Assets/4.png"></td>
-                        <td class="nameAndCost">
-                            <p>Laptop</p>
-                            <p><span id="laptopCost">10,000</span> Bitcoin</p>
-                        </td>
-                        <td class="amount"><span id="laptops">0</span></td>
-                    </tr>
-                </table>
-
-                <table id="pc" class="shopButton" onclick="buyPc()">
-                    <tr>
-                        <td class="image"><img src="Assets/5.png"></td>
-                        <td class="nameAndCost">
-                            <p>Pc</p>
-                            <p><span id="pcCost">50,000</span> Bitcoin</p>
-                        </td>
-                        <td class="amount"><span id="pcs">0</span></td>
-                    </tr>
-                </table>
-
-                <table id="goodpc" class="shopButton" onclick="buyGoodpc()">
-                    <tr>
-                        <td class="image"><img src="Assets/6.png"></td>
-                        <td class="nameAndCost">
-                            <p>Good PC</p>
-                            <p><span id="goodpcCost">100,000</span> Bitcoin</p>
-                        </td>
-                        <td class="amount"><span id="goodpcs">0</span></td>
-                    </tr>
-                </table>
-
-                <table id="goodlaptop" class="shopButton" onclick="buyGoodlaptop()">
-                    <tr>
-                        <td class="image"><img src="Assets/7.png"></td>
-                        <td class="nameAndCost">
-                            <p>Gaming Laptop</p>
-                            <p><span id="goodlaptopCost">1,000,000</span> Bitcoin</p>
-                        </td>
-                        <td class="amount"><span id="goodlaptops">0</span></td>
-                    </tr>
-                </table>
-
-                <table id="gpc" class="shopButton" onclick="buyGpc()">
-                    <tr>
-                        <td class="image"><img src="Assets/8.png"></td>
-                        <td class="nameAndCost">
-                            <p>Gaming PC</p>
-                            <p><span id="gpcCost">50,000,000</span> Bitcoin</p>
-                        </td>
-                        <td class="amount"><span id="gpcs">0</span></td>
-                    </tr>
-                </table>
-
-                <table id="apc" class="shopButton" onclick="buyApc()">
-                    <tr>
-                        <td class="image"><img src="Assets/9.png"></td>
-                        <td class="nameAndCost">
-                            <p>Asus PC</p>
-                            <p><span id="apcCost">1,000,000,000</span> Bitcoin</p>
-                        </td>
-                        <td class="amount"><span id="apcs">0</span></td>
-                    </tr>
-                </table>
-            </div>
+        <div class="button-container">
+            <button id="clickButton">Click me!</button>
+        </div>
+        <div class="button-container">
+            <button id="cursor" class="disabled" onclick="buyCursor()">Buy Cursor (Cost: <span id="cursorCost">30</span> Bitcoin)</button>
+            <button id="oldLaptop" class="disabled" onclick="buyOldLaptop()">Buy Old Laptop (Cost: <span id="oldLaptopCost">300</span> Bitcoin)</button>
+            <button id="oldPC" class="disabled" onclick="buyOldPC()">Buy Old PC (Cost: <span id="oldPCCost">1000</span> Bitcoin)</button>
+            <button id="laptop" class="disabled" onclick="buyLaptop()">Buy Laptop (Cost: <span id="laptopCost">10000</span> Bitcoin)</button>
+            <button id="pc" class="disabled" onclick="buyPc()">Buy PC (Cost: <span id="pcCost">20000</span> Bitcoin)</button>
+            <button id="goodpc" class="disabled" onclick="buyGoodpc()">Buy Good PC (Cost: <span id="goodpcCost">200000</span> Bitcoin)</button>
+            <button id="goodlaptop" class="disabled" onclick="buyGoodlaptop()">Buy Good Laptop (Cost: <span id="goodlaptopCost">500000</span> Bitcoin)</button>
+            <button id="gpc" class="disabled" onclick="buyGpc()">Buy Gaming PC (Cost: <span id="gpcCost">1000000</span> Bitcoin)</button>
+            <button id="apc" class="disabled" onclick="buyApc()">Buy Asus PC (Cost: <span id="apcCost">1000000000</span> Bitcoin)</button>
         </div>
     </div>
 
@@ -297,6 +92,10 @@
 
         const scoreElement = document.getElementById('score');
         const scorePerSecondElement = document.getElementById('scorepersecond');
+
+        document.getElementById('clickButton').addEventListener('click', () => {
+            addToScore(clickingPower);
+        });
 
         function updateScoreDisplay() {
             scoreElement.innerText = formatNumber(score);
@@ -442,68 +241,41 @@
         }
 
         function updateButtonStates() {
-            updateButtonState('cursor', Number(cursorCostElement.innerText.replace(/,/g, '')));
-            updateButtonState('oldLaptop', Number(oldLaptopCostElement.innerText.replace(/,/g, '')));
-            updateButtonState('oldPC', Number(oldPCCostElement.innerText.replace(/,/g, '')));
-            updateButtonState('laptop', Number(laptopCostElement.innerText.replace(/,/g, '')));
-            updateButtonState('pc', Number(pcCostElement.innerText.replace(/,/g, '')));
-            updateButtonState('goodpc', Number(goodpcCostElement.innerText.replace(/,/g, '')));
-            updateButtonState('goodlaptop', Number(goodlaptopCostElement.innerText.replace(/,/g, '')));
-            updateButtonState('gpc', Number(gpcCostElement.innerText.replace(/,/g, '')));
-            updateButtonState('apc', Number(apcCostElement.innerText.replace(/,/g, '')));
+            const cursorCost = Number(cursorCostElement.innerText.replace(/,/g, ''));
+            const oldLaptopCost = Number(oldLaptopCostElement.innerText.replace(/,/g, ''));
+            const oldPCCost = Number(oldPCCostElement.innerText.replace(/,/g, ''));
+            const laptopCost = Number(laptopCostElement.innerText.replace(/,/g, ''));
+            const pcCost = Number(pcCostElement.innerText.replace(/,/g, ''));
+            const goodpcCost = Number(goodpcCostElement.innerText.replace(/,/g, ''));
+            const goodlaptopCost = Number(goodlaptopCostElement.innerText.replace(/,/g, ''));
+            const gpcCost = Number(gpcCostElement.innerText.replace(/,/g, ''));
+            const apcCost = Number(apcCostElement.innerText.replace(/,/g, ''));
+
+            toggleButtonState(document.getElementById('cursor'), score >= cursorCost);
+            toggleButtonState(document.getElementById('oldLaptop'), score >= oldLaptopCost);
+            toggleButtonState(document.getElementById('oldPC'), score >= oldPCCost);
+            toggleButtonState(document.getElementById('laptop'), score >= laptopCost);
+            toggleButtonState(document.getElementById('pc'), score >= pcCost);
+            toggleButtonState(document.getElementById('goodpc'), score >= goodpcCost);
+            toggleButtonState(document.getElementById('goodlaptop'), score >= goodlaptopCost);
+            toggleButtonState(document.getElementById('gpc'), score >= gpcCost);
+            toggleButtonState(document.getElementById('apc'), score >= apcCost);
         }
 
-        function updateButtonState(id, cost) {
-            const button = document.getElementById(id);
-            if (score >= cost) {
+        function toggleButtonState(button, enabled) {
+            if (enabled) {
                 button.classList.remove('disabled');
             } else {
                 button.classList.add('disabled');
             }
         }
 
-        setInterval(() => {
-            addToScore(scorePerSecond / 10);
-        }, 100);
-
-        function resetGame() {
-            score = 0;
-            clickingPower = 1;
-            scorePerSecond = 0;
-            cursors = 0;
-            oldLaptops = 0;
-            oldPCs = 0;
-            laptops = 0;
-            pcs = 0;
-            goodpcs = 0;
-            goodlaptops = 0;
-            gpcs = 0;
-            apcs = 0;
-
-            cursorCostElement.innerText = formatNumber(30);
-            oldLaptopCostElement.innerText = formatNumber(300);
-            oldPCCostElement.innerText = formatNumber(1000);
-            laptopCostElement.innerText = formatNumber(10000);
-            pcCostElement.innerText = formatNumber(20000);
-            goodpcCostElement.innerText = formatNumber(200000);
-            goodlaptopCostElement.innerText = formatNumber(500000);
-            gpcCostElement.innerText = formatNumber(1000000);
-            apcCostElement.innerText = formatNumber(1000000000);
-
-            cursorAmountElement.innerText = cursors;
-            oldLaptopAmountElement.innerText = oldLaptops;
-            oldPCAmountElement.innerText = oldPCs;
-            laptopAmountElement.innerText = laptops;
-            pcAmountElement.innerText = pcs;
-            goodpcAmountElement.innerText = goodpcs;
-            goodlaptopAmountElement.innerText = goodlaptops;
-            gpcAmountElement.innerText = gpcs;
-            apcAmountElement.innerText = apcs;
-
+        function incrementScore() {
+            score += scorePerSecond / 100;
             updateScoreDisplay();
-            updateScorePerSecondDisplay();
-            updateButtonStates();
         }
+
+        setInterval(incrementScore, 10);
     </script>
 </body>
 </html>
