@@ -131,16 +131,14 @@
             margin-top: 20px;
             text-align: center;
         }
-        
+
         .score1 {
-            font-size:25px;
             color: yellow;
         }
         
         .sps {
-           font-size:25px;
-           color: yellow;
-                }
+            color: yellow;
+        }
     </style>
 </head>
 <body>
@@ -209,7 +207,7 @@
                     <tr>
                         <td class="image"><img src="Assets/5.png"></td>
                         <td class="nameAndCost">
-                            <p>Slow Pc</p>
+                            <p>Pc</p>
                             <p><span id="pcCost">50,000</span> Bitcoin</p>
                         </td>
                         <td class="amount"><span id="pcs">0</span></td>
@@ -242,7 +240,7 @@
                     <tr>
                         <td class="image"><img src="Assets/8.png"></td>
                         <td class="nameAndCost">
-                            <p>PC</p>
+                            <p>Gaming PC</p>
                             <p><span id="gpcCost">50,000,000</span> Bitcoin</p>
                         </td>
                         <td class="amount"><span id="gpcs">0</span></td>
@@ -253,8 +251,8 @@
                     <tr>
                         <td class="image"><img src="Assets/9.png"></td>
                         <td class="nameAndCost">
-                            <p>Gaming PC</p>
-                            <p><span id="apcCost">500,000,000</span> Bitcoin</p>
+                            <p>Asus PC</p>
+                            <p><span id="apcCost">1,000,000,000</span> Bitcoin</p>
                         </td>
                         <td class="amount"><span id="apcs">0</span></td>
                     </tr>
@@ -264,175 +262,199 @@
     </div>
 
     <script>
-        var score = 0;
-        var clickingPower = 1;
-        var scorePerSecond = 0;
+        let score = 0;
+        let clickingPower = 1;
+        let scorePerSecond = 0;
+        let cursors = 0;
+        let oldLaptops = 0;
+        let oldPCs = 0;
+        let laptops = 0;
+        let pcs = 0;
+        let goodpcs = 0;
+        let goodlaptops = 0;
+        let gpcs = 0;
+        let apcs = 0;
 
-        // Upgrade Costs
-        var cursorCost = 30;
-        var oldLaptopCost = 300;
-        var oldPCCost = 1000;
-        var laptopCost = 10000;
-        var pcCost = 50000;
-        var goodpcCost = 100000;
-        var goodlaptopCost = 1000000;
-        var gpcCost = 50000000;
-        var apcCost = 500000000;
+        const cursorCostElement = document.getElementById('cursorCost');
+        const oldLaptopCostElement = document.getElementById('oldLaptopCost');
+        const oldPCCostElement = document.getElementById('oldPCCost');
+        const laptopCostElement = document.getElementById('laptopCost');
+        const pcCostElement = document.getElementById('pcCost');
+        const goodpcCostElement = document.getElementById('goodpcCost');
+        const goodlaptopCostElement = document.getElementById('goodlaptopCost');
+        const gpcCostElement = document.getElementById('gpcCost');
+        const apcCostElement = document.getElementById('apcCost');
 
-        // Upgrade Counts
-        var cursors = 0;
-        var oldLaptops = 0;
-        var oldPCs = 0;
-        var laptops = 0;
-        var pcs = 0;
-        var goodpcs = 0;
-        var goodlaptops = 0;
-        var gpcs = 0;
-        var apcs = 0;
+        const cursorAmountElement = document.getElementById('cursors');
+        const oldLaptopAmountElement = document.getElementById('oldLaptops');
+        const oldPCAmountElement = document.getElementById('oldPCs');
+        const laptopAmountElement = document.getElementById('laptops');
+        const pcAmountElement = document.getElementById('pcs');
+        const goodpcAmountElement = document.getElementById('goodpcs');
+        const goodlaptopAmountElement = document.getElementById('goodlaptops');
+        const gpcAmountElement = document.getElementById('gpcs');
+        const apcAmountElement = document.getElementById('apcs');
+
+        const scoreElement = document.getElementById('score');
+        const scorePerSecondElement = document.getElementById('scorepersecond');
+
+        function updateScoreDisplay() {
+            scoreElement.innerText = formatNumber(score);
+        }
+
+        function updateScorePerSecondDisplay() {
+            scorePerSecondElement.innerText = scorePerSecond.toFixed(2);
+        }
+
+        function formatNumber(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
 
         function addToScore(amount) {
             score += amount;
-            updateScore();
-            updateButtons();
+            updateScoreDisplay();
+            updateButtonStates();
         }
 
         function buyCursor() {
+            const cursorCost = Number(cursorCostElement.innerText.replace(/,/g, ''));
             if (score >= cursorCost) {
                 score -= cursorCost;
-                cursors++;
-                cursorCost = Math.round(cursorCost * 1.15);
-                scorePerSecond += 0.1;
-                updateScore();
-                updateButtons();
+                cursors += 1;
+                clickingPower += 1;
+                cursorCostElement.innerText = formatNumber(Math.floor(cursorCost * 1.15));
+                cursorAmountElement.innerText = cursors;
+                updateScoreDisplay();
+                updateButtonStates();
             }
         }
 
         function buyOldLaptop() {
+            const oldLaptopCost = Number(oldLaptopCostElement.innerText.replace(/,/g, ''));
             if (score >= oldLaptopCost) {
                 score -= oldLaptopCost;
-                oldLaptops++;
-                oldLaptopCost = Math.round(oldLaptopCost * 1.15);
-                scorePerSecond += 1;
-                updateScore();
-                updateButtons();
+                oldLaptops += 1;
+                scorePerSecond += 5;
+                oldLaptopCostElement.innerText = formatNumber(Math.floor(oldLaptopCost * 1.15));
+                oldLaptopAmountElement.innerText = oldLaptops;
+                updateScoreDisplay();
+                updateScorePerSecondDisplay();
+                updateButtonStates();
             }
         }
 
         function buyOldPC() {
+            const oldPCCost = Number(oldPCCostElement.innerText.replace(/,/g, ''));
             if (score >= oldPCCost) {
                 score -= oldPCCost;
-                oldPCs++;
-                oldPCCost = Math.round(oldPCCost * 1.15);
+                oldPCs += 1;
                 scorePerSecond += 10;
-                updateScore();
-                updateButtons();
+                oldPCCostElement.innerText = formatNumber(Math.floor(oldPCCost * 1.15));
+                oldPCAmountElement.innerText = oldPCs;
+                updateScoreDisplay();
+                updateScorePerSecondDisplay();
+                updateButtonStates();
             }
         }
 
         function buyLaptop() {
+            const laptopCost = Number(laptopCostElement.innerText.replace(/,/g, ''));
             if (score >= laptopCost) {
                 score -= laptopCost;
-                laptops++;
-                laptopCost = Math.round(laptopCost * 1.15);
-                scorePerSecond += 20;
-                updateScore();
-                updateButtons();
+                laptops += 1;
+                scorePerSecond += 50;
+                laptopCostElement.innerText = formatNumber(Math.floor(laptopCost * 1.15));
+                laptopAmountElement.innerText = laptops;
+                updateScoreDisplay();
+                updateScorePerSecondDisplay();
+                updateButtonStates();
             }
         }
 
         function buyPc() {
+            const pcCost = Number(pcCostElement.innerText.replace(/,/g, ''));
             if (score >= pcCost) {
                 score -= pcCost;
-                pcs++;
-                pcCost = Math.round(pcCost * 1.15);
-                scorePerSecond += 30;
-                updateScore();
-                updateButtons();
+                pcs += 1;
+                scorePerSecond += 100;
+                pcCostElement.innerText = formatNumber(Math.floor(pcCost * 1.15));
+                pcAmountElement.innerText = pcs;
+                updateScoreDisplay();
+                updateScorePerSecondDisplay();
+                updateButtonStates();
             }
         }
 
         function buyGoodpc() {
+            const goodpcCost = Number(goodpcCostElement.innerText.replace(/,/g, ''));
             if (score >= goodpcCost) {
                 score -= goodpcCost;
-                goodpcs++;
-                goodpcCost = Math.round(goodpcCost * 1.15);
-                scorePerSecond += 40;
-                updateScore();
-                updateButtons();
+                goodpcs += 1;
+                scorePerSecond += 500;
+                goodpcCostElement.innerText = formatNumber(Math.floor(goodpcCost * 1.15));
+                goodpcAmountElement.innerText = goodpcs;
+                updateScoreDisplay();
+                updateScorePerSecondDisplay();
+                updateButtonStates();
             }
         }
 
         function buyGoodlaptop() {
+            const goodlaptopCost = Number(goodlaptopCostElement.innerText.replace(/,/g, ''));
             if (score >= goodlaptopCost) {
                 score -= goodlaptopCost;
-                goodlaptops++;
-                goodlaptopCost = Math.round(goodlaptopCost * 1.15);
-                scorePerSecond += 50;
-                updateScore();
-                updateButtons();
+                goodlaptops += 1;
+                scorePerSecond += 1000;
+                goodlaptopCostElement.innerText = formatNumber(Math.floor(goodlaptopCost * 1.15));
+                goodlaptopAmountElement.innerText = goodlaptops;
+                updateScoreDisplay();
+                updateScorePerSecondDisplay();
+                updateButtonStates();
             }
         }
 
         function buyGpc() {
+            const gpcCost = Number(gpcCostElement.innerText.replace(/,/g, ''));
             if (score >= gpcCost) {
                 score -= gpcCost;
-                gpcs++;
-                gpcCost = Math.round(gpcCost * 1.15);
-                scorePerSecond += 60;
-                updateScore();
-                updateButtons();
+                gpcs += 1;
+                scorePerSecond += 5000;
+                gpcCostElement.innerText = formatNumber(Math.floor(gpcCost * 1.15));
+                gpcAmountElement.innerText = gpcs;
+                updateScoreDisplay();
+                updateScorePerSecondDisplay();
+                updateButtonStates();
             }
         }
 
         function buyApc() {
+            const apcCost = Number(apcCostElement.innerText.replace(/,/g, ''));
             if (score >= apcCost) {
                 score -= apcCost;
-                apcs++;
-                apcCost = Math.round(apcCost * 1.15);
-                scorePerSecond += 70;
-                updateScore();
-                updateButtons();
+                apcs += 1;
+                scorePerSecond += 10000;
+                apcCostElement.innerText = formatNumber(Math.floor(apcCost * 1.15));
+                apcAmountElement.innerText = apcs;
+                updateScoreDisplay();
+                updateScorePerSecondDisplay();
+                updateButtonStates();
             }
         }
 
-        function updateScore() {
-            document.getElementById('score').innerText = Math.floor(score);
-            document.getElementById('scorepersecond').innerText = scorePerSecond.toFixed(2);
-            document.getElementById('cursorCost').innerText = cursorCost;
-            document.getElementById('oldLaptopCost').innerText = oldLaptopCost;
-            document.getElementById('oldPCCost').innerText = oldPCCost;
-            document.getElementById('laptopCost').innerText = laptopCost;
-            document.getElementById('pcCost').innerText = pcCost;
-            document.getElementById('goodpcCost').innerText = goodpcCost;
-            document.getElementById('goodlaptopCost').innerText = goodlaptopCost;
-            document.getElementById('gpcCost').innerText = gpcCost;
-            document.getElementById('apcCost').innerText = apcCost;
-
-            document.getElementById('cursors').innerText = cursors;
-            document.getElementById('oldLaptops').innerText = oldLaptops;
-            document.getElementById('oldPCs').innerText = oldPCs;
-            document.getElementById('laptops').innerText = laptops;
-            document.getElementById('pcs').innerText = pcs;
-            document.getElementById('goodpcs').innerText = goodpcs;
-            document.getElementById('goodlaptops').innerText = goodlaptops;
-            document.getElementById('gpcs').innerText = gpcs;
-            document.getElementById('apcs').innerText = apcs;
+        function updateButtonStates() {
+            updateButtonState('cursor', Number(cursorCostElement.innerText.replace(/,/g, '')));
+            updateButtonState('oldLaptop', Number(oldLaptopCostElement.innerText.replace(/,/g, '')));
+            updateButtonState('oldPC', Number(oldPCCostElement.innerText.replace(/,/g, '')));
+            updateButtonState('laptop', Number(laptopCostElement.innerText.replace(/,/g, '')));
+            updateButtonState('pc', Number(pcCostElement.innerText.replace(/,/g, '')));
+            updateButtonState('goodpc', Number(goodpcCostElement.innerText.replace(/,/g, '')));
+            updateButtonState('goodlaptop', Number(goodlaptopCostElement.innerText.replace(/,/g, '')));
+            updateButtonState('gpc', Number(gpcCostElement.innerText.replace(/,/g, '')));
+            updateButtonState('apc', Number(apcCostElement.innerText.replace(/,/g, '')));
         }
 
-        function updateButtons() {
-            updateButtonState('cursor', cursorCost, score);
-            updateButtonState('oldLaptop', oldLaptopCost, score);
-            updateButtonState('oldPC', oldPCCost, score);
-            updateButtonState('laptop', laptopCost, score);
-            updateButtonState('pc', pcCost, score);
-            updateButtonState('goodpc', goodpcCost, score);
-            updateButtonState('goodlaptop', goodlaptopCost, score);
-            updateButtonState('gpc', gpcCost, score);
-            updateButtonState('apc', apcCost, score);
-        }
-
-        function updateButtonState(id, cost, score) {
-            var button = document.getElementById(id);
+        function updateButtonState(id, cost) {
+            const button = document.getElementById(id);
             if (score >= cost) {
                 button.classList.remove('disabled');
             } else {
@@ -440,7 +462,7 @@
             }
         }
 
-        setInterval(function() {
+        setInterval(() => {
             addToScore(scorePerSecond / 10);
         }, 100);
 
@@ -448,17 +470,6 @@
             score = 0;
             clickingPower = 1;
             scorePerSecond = 0;
-
-            cursorCost = 30;
-            oldLaptopCost = 300;
-            oldPCCost = 1000;
-            laptopCost = 10000;
-            pcCost = 50000;
-            goodpcCost = 100000;
-            goodlaptopCost = 1000000;
-            gpcCost = 50000000;
-            apcCost = 500000000;
-
             cursors = 0;
             oldLaptops = 0;
             oldPCs = 0;
@@ -469,14 +480,30 @@
             gpcs = 0;
             apcs = 0;
 
-            updateScore();
-            updateButtons();
-        }
+            cursorCostElement.innerText = formatNumber(30);
+            oldLaptopCostElement.innerText = formatNumber(300);
+            oldPCCostElement.innerText = formatNumber(1000);
+            laptopCostElement.innerText = formatNumber(10000);
+            pcCostElement.innerText = formatNumber(20000);
+            goodpcCostElement.innerText = formatNumber(200000);
+            goodlaptopCostElement.innerText = formatNumber(500000);
+            gpcCostElement.innerText = formatNumber(1000000);
+            apcCostElement.innerText = formatNumber(1000000000);
 
-        document.addEventListener("DOMContentLoaded", function() {
-            updateScore();
-            updateButtons();
-        });
+            cursorAmountElement.innerText = cursors;
+            oldLaptopAmountElement.innerText = oldLaptops;
+            oldPCAmountElement.innerText = oldPCs;
+            laptopAmountElement.innerText = laptops;
+            pcAmountElement.innerText = pcs;
+            goodpcAmountElement.innerText = goodpcs;
+            goodlaptopAmountElement.innerText = goodlaptops;
+            gpcAmountElement.innerText = gpcs;
+            apcAmountElement.innerText = apcs;
+
+            updateScoreDisplay();
+            updateScorePerSecondDisplay();
+            updateButtonStates();
+        }
     </script>
 </body>
 </html>
