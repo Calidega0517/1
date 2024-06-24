@@ -364,8 +364,8 @@
             if (score >= cursorCost) {
                 score -= cursorCost;
                 cursors++;
-                cursorCost = Math.ceil(cursorCost * 1.15);
-                clickingPower += 1;
+                cursorCost = Math.ceil(cursorCost * 1.20);
+                clickingPower += 0.5;
                 document.getElementById("cursorCost").textContent = cursorCost;
                 document.getElementById("cursors").textContent = cursors;
                 updateScoreDisplay();
@@ -377,7 +377,7 @@
             if (score >= oldLaptopCost) {
                 score -= oldLaptopCost;
                 oldLaptops++;
-                oldLaptopCost = Math.ceil(oldLaptopCost * 1.15);
+                oldLaptopCost = Math.ceil(oldLaptopCost * 1.20);
                 btcPerSecond += 0.1;
                 document.getElementById("oldLaptopCost").textContent = oldLaptopCost;
                 document.getElementById("oldLaptops").textContent = oldLaptops;
@@ -390,7 +390,7 @@
             if (score >= oldPCCost) {
                 score -= oldPCCost;
                 oldPCs++;
-                oldPCCost = Math.ceil(oldPCCost * 1.15);
+                oldPCCost = Math.ceil(oldPCCost * 1.20);
                 btcPerSecond += 0.5;
                 document.getElementById("oldPCCost").textContent = oldPCCost;
                 document.getElementById("oldPCs").textContent = oldPCs;
@@ -403,7 +403,7 @@
             if (score >= laptopCost) {
                 score -= laptopCost;
                 laptops++;
-                laptopCost = Math.ceil(laptopCost * 1.15);
+                laptopCost = Math.ceil(laptopCost * 1.20);
                 btcPerSecond += 1;
                 document.getElementById("laptopCost").textContent = laptopCost;
                 document.getElementById("laptops").textContent = laptops;
@@ -416,7 +416,7 @@
             if (score >= pcCost) {
                 score -= pcCost;
                 pcs++;
-                pcCost = Math.ceil(pcCost * 1.15);
+                pcCost = Math.ceil(pcCost * 1.20);
                 btcPerSecond += 5;
                 document.getElementById("pcCost").textContent = pcCost;
                 document.getElementById("pcs").textContent = pcs;
@@ -429,7 +429,7 @@
             if (score >= goodpcCost) {
                 score -= goodpcCost;
                 goodpcs++;
-                goodpcCost = Math.ceil(goodpcCost * 1.15);
+                goodpcCost = Math.ceil(goodpcCost * 1.20);
                 btcPerSecond += 10;
                 document.getElementById("goodpcCost").textContent = goodpcCost;
                 document.getElementById("goodpcs").textContent = goodpcs;
@@ -442,7 +442,7 @@
             if (score >= goodlaptopCost) {
                 score -= goodlaptopCost;
                 goodlaptops++;
-                goodlaptopCost = Math.ceil(goodlaptopCost * 1.15);
+                goodlaptopCost = Math.ceil(goodlaptopCost * 1.20);
                 btcPerSecond += 50;
                 document.getElementById("goodlaptopCost").textContent = goodlaptopCost;
                 document.getElementById("goodlaptops").textContent = goodlaptops;
@@ -455,7 +455,7 @@
             if (score >= gpcCost) {
                 score -= gpcCost;
                 gpcs++;
-                gpcCost = Math.ceil(gpcCost * 1.4);
+                gpcCost = Math.ceil(gpcCost * 1.20);
                 btcPerSecond += 100;
                 document.getElementById("gpcCost").textContent = gpcCost;
                 document.getElementById("gpcs").textContent = gpcs;
@@ -468,7 +468,7 @@
             if (score >= apcCost) {
                 score -= apcCost;
                 apcs++;
-                apcCost = Math.ceil(apcCost * 1.5);
+                apcCost = Math.ceil(apcCost * 1.20);
                 btcPerSecond += 1000;
                 document.getElementById("apcCost").textContent = apcCost;
                 document.getElementById("apcs").textContent = apcs;
