@@ -147,7 +147,7 @@
         <div class="sectionLeft">
             <div class="scoreContainer">
                 <span id="score">Bitcoin <br><div class="score1">0</div></span>
-                <span id="scorepersecond" class="sps">0</span> Bitcoin Per Second
+                <span id="scorepersecond" class="sps">0</span> Per Second
             </div>
             <br>
             <div class="clickerContainer">
@@ -257,298 +257,138 @@
                         <td class="amount"><span id="apcs">0</span></td>
                     </tr>
                 </table>
+
+                <table id="server" class="shopButton" onclick="buyServer()">
+                    <tr>
+                        <td class="image"><img src="Assets/10.png"></td>
+                        <td class="nameAndCost">
+                            <p>Server</p>
+                            <p><span id="serverCost">1,000,000,000</span> Bitcoin</p>
+                        </td>
+                        <td class="amount"><span id="servers">0</span></td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>
-    <script>
-        // Initialize score and items
-        let score = 0;
-        let cursors = 0;
-        let oldLaptops = 0;
-        let oldPCs = 0;
-        let laptops = 0;
-        let pcs = 0;
-        let goodpcs = 0;
-        let goodlaptops = 0;
-        let gpcs = 0;
-        let apcs = 0;
 
-        // Clicking power
+    <script>
+        let score = 0;
+        let btcPerSecond = 0;
         let clickingPower = 1;
 
-        // Item costs
-        let cursorCost = 30;
-        let oldLaptopCost = 300;
-        let oldPCCost = 1000;
-        let laptopCost = 10000;
-        let pcCost = 50000;
-        let goodpcCost = 100000;
-        let goodlaptopCost = 1000000;
-        let gpcCost = 50000000;
-        let apcCost = 500000000;
+        // Store item quantities and costs
+        const store = {
+            cursor: { quantity: 0, cost: 30, increment: 0.1 },
+            oldLaptop: { quantity: 0, cost: 300, increment: 1 },
+            oldPC: { quantity: 0, cost: 1000, increment: 5 },
+            laptop: { quantity: 0, cost: 10000, increment: 50 },
+            pc: { quantity: 0, cost: 50000, increment: 100 },
+            goodpc: { quantity: 0, cost: 100000, increment: 500 },
+            goodlaptop: { quantity: 0, cost: 1000000, increment: 1000 },
+            gpc: { quantity: 0, cost: 50000000, increment: 10000 },
+            apc: { quantity: 0, cost: 500000000, increment: 100000 },
+            server: { quantity: 0, cost: 1000000000, increment: 500000 }
+        };
 
-        // BTC per second
-        let btcPerSecond = 0;
-
-        // Update score display
         function updateScoreDisplay() {
-            document.querySelector("#score .score1").textContent = score.toFixed(2);
-            document.getElementById("scorepersecond").textContent = btcPerSecond.toFixed(2);
+            document.querySelector('.score1').textContent = score.toFixed(0);
+            document.querySelector('.sps').textContent = (btcPerSecond * 10000).toFixed(0);
         }
 
-        // Add to score function
         function addToScore(amount) {
             score += amount;
             updateScoreDisplay();
         }
 
-        // Function to check and disable shop buttons if not affordable
-        function checkAffordable() {
-            if (score < cursorCost) {
-                document.getElementById("cursor").classList.add("disabled");
-            } else {
-                document.getElementById("cursor").classList.remove("disabled");
-            }
-
-            if (score < oldLaptopCost) {
-                document.getElementById("oldLaptop").classList.add("disabled");
-            } else {
-                document.getElementById("oldLaptop").classList.remove("disabled");
-            }
-
-            if (score < oldPCCost) {
-                document.getElementById("oldPC").classList.add("disabled");
-            } else {
-                document.getElementById("oldPC").classList.remove("disabled");
-            }
-
-            if (score < laptopCost) {
-                document.getElementById("laptop").classList.add("disabled");
-            } else {
-                document.getElementById("laptop").classList.remove("disabled");
-            }
-
-            if (score < pcCost) {
-                document.getElementById("pc").classList.add("disabled");
-            } else {
-                document.getElementById("pc").classList.remove("disabled");
-            }
-
-            if (score < goodpcCost) {
-                document.getElementById("goodpc").classList.add("disabled");
-            } else {
-                document.getElementById("goodpc").classList.remove("disabled");
-            }
-
-            if (score < goodlaptopCost) {
-                document.getElementById("goodlaptop").classList.add("disabled");
-            } else {
-                document.getElementById("goodlaptop").classList.remove("disabled");
-            }
-
-            if (score < gpcCost) {
-                document.getElementById("gpc").classList.add("disabled");
-            } else {
-                document.getElementById("gpc").classList.remove("disabled");
-            }
-
-            if (score < apcCost) {
-                document.getElementById("apc").classList.add("disabled");
-            } else {
-                document.getElementById("apc").classList.remove("disabled");
+        function buyItem(item) {
+            if (score >= store[item].cost) {
+                score -= store[item].cost;
+                store[item].quantity++;
+                btcPerSecond += store[item].increment;
+                store[item].cost = Math.round(store[item].cost * 1.15);
+                updateStoreDisplay();
+                updateScoreDisplay();
             }
         }
 
-        // Functions to buy items
-        function buyCursor() {
-            if (score >= cursorCost) {
-                score -= cursorCost;
-                cursors++;
-                cursorCost = Math.ceil(cursorCost * 1.15);
-                clickingPower += 1;
-                document.getElementById("cursorCost").textContent = cursorCost;
-                document.getElementById("cursors").textContent = cursors;
-                updateScoreDisplay();
-                checkAffordable();
+        function updateStoreDisplay() {
+            for (let item in store) {
+                document.getElementById(item + 'Cost').textContent = store[item].cost;
+                document.getElementById(item + 's').textContent = store[item].quantity;
             }
+        }
+
+        function buyCursor() {
+            buyItem('cursor');
         }
 
         function buyOldLaptop() {
-            if (score >= oldLaptopCost) {
-                score -= oldLaptopCost;
-                oldLaptops++;
-                oldLaptopCost = Math.ceil(oldLaptopCost * 1.15);
-                btcPerSecond += 0.1;
-                document.getElementById("oldLaptopCost").textContent = oldLaptopCost;
-                document.getElementById("oldLaptops").textContent = oldLaptops;
-                updateScoreDisplay();
-                checkAffordable();
-            }
+            buyItem('oldLaptop');
         }
 
         function buyOldPC() {
-            if (score >= oldPCCost) {
-                score -= oldPCCost;
-                oldPCs++;
-                oldPCCost = Math.ceil(oldPCCost * 1.15);
-                btcPerSecond += 0.5;
-                document.getElementById("oldPCCost").textContent = oldPCCost;
-                document.getElementById("oldPCs").textContent = oldPCs;
-                updateScoreDisplay();
-                checkAffordable();
-            }
+            buyItem('oldPC');
         }
 
         function buyLaptop() {
-            if (score >= laptopCost) {
-                score -= laptopCost;
-                laptops++;
-                laptopCost = Math.ceil(laptopCost * 1.15);
-                btcPerSecond += 1;
-                document.getElementById("laptopCost").textContent = laptopCost;
-                document.getElementById("laptops").textContent = laptops;
-                updateScoreDisplay();
-                checkAffordable();
-            }
+            buyItem('laptop');
         }
 
         function buyPc() {
-            if (score >= pcCost) {
-                score -= pcCost;
-                pcs++;
-                pcCost = Math.ceil(pcCost * 1.15);
-                btcPerSecond += 5;
-                document.getElementById("pcCost").textContent = pcCost;
-                document.getElementById("pcs").textContent = pcs;
-                updateScoreDisplay();
-                checkAffordable();
-            }
+            buyItem('pc');
         }
 
         function buyGoodpc() {
-            if (score >= goodpcCost) {
-                score -= goodpcCost;
-                goodpcs++;
-                goodpcCost = Math.ceil(goodpcCost * 1.15);
-                btcPerSecond += 10;
-                document.getElementById("goodpcCost").textContent = goodpcCost;
-                document.getElementById("goodpcs").textContent = goodpcs;
-                updateScoreDisplay();
-                checkAffordable();
-            }
+            buyItem('goodpc');
         }
 
         function buyGoodlaptop() {
-            if (score >= goodlaptopCost) {
-                score -= goodlaptopCost;
-                goodlaptops++;
-                goodlaptopCost = Math.ceil(goodlaptopCost * 1.15);
-                btcPerSecond += 50;
-                document.getElementById("goodlaptopCost").textContent = goodlaptopCost;
-                document.getElementById("goodlaptops").textContent = goodlaptops;
-                updateScoreDisplay();
-                checkAffordable();
-            }
+            buyItem('goodlaptop');
         }
 
         function buyGpc() {
-            if (score >= gpcCost) {
-                score -= gpcCost;
-                gpcs++;
-                gpcCost = Math.ceil(gpcCost * 1.4);
-                btcPerSecond += 100;
-                document.getElementById("gpcCost").textContent = gpcCost;
-                document.getElementById("gpcs").textContent = gpcs;
-                updateScoreDisplay();
-                checkAffordable();
-            }
+            buyItem('gpc');
         }
 
         function buyApc() {
-            if (score >= apcCost) {
-                score -= apcCost;
-                apcs++;
-                apcCost = Math.ceil(apcCost * 1.5);
-                btcPerSecond += 1000;
-                document.getElementById("apcCost").textContent = apcCost;
-                document.getElementById("apcs").textContent = apcs;
-                updateScoreDisplay();
-                checkAffordable();
-            }
+            buyItem('apc');
         }
 
-        // Function to update the score based on btcPerSecond
-        function updateScore() {
-            score += btcPerSecond / 10;
-            updateScoreDisplay();
-            checkAffordable();
+        function buyServer() {
+            buyItem('server');
         }
 
-        // Update the score every 100 milliseconds
-        setInterval(updateScore, 100);
+        setInterval(function() {
+            addToScore(btcPerSecond / 10);
+        }, 100);
 
-        // Function to reset the game
         function resetGame() {
-            if (confirm('Are you sure you want to reset the game?')) {
-                score = 0;
-                cursors = 0;
-                oldLaptops = 0;
-                oldPCs = 0;
-                laptops = 0;
-                pcs = 0;
-                goodpcs = 0;
-                goodlaptops = 0;
-                gpcs = 0;
-                apcs = 0;
-                clickingPower = 1;
-                cursorCost = 30;
-                oldLaptopCost = 300;
-                oldPCCost = 1000;
-                laptopCost = 10000;
-                pcCost = 50000;
-                goodpcCost = 100000;
-                goodlaptopCost = 1000000;
-                gpcCost = 50000000;
-                apcCost = 500000000;
-                btcPerSecond = 0;
-                updateScoreDisplay();
-                document.getElementById("cursorCost").textContent = cursorCost;
-                document.getElementById("cursors").textContent = cursors;
-                document.getElementById("oldLaptopCost").textContent = oldLaptopCost;
-                document.getElementById("oldLaptops").textContent = oldLaptops;
-                document.getElementById("oldPCCost").textContent = oldPCCost;
-                document.getElementById("oldPCs").textContent = oldPCs;
-                document.getElementById("laptopCost").textContent = laptopCost;
-                document.getElementById("laptops").textContent = laptops;
-                document.getElementById("pcCost").textContent = pcCost;
-                document.getElementById("pcs").textContent = pcs;
-                document.getElementById("goodpcCost").textContent = goodpcCost;
-                document.getElementById("goodpcs").textContent = goodpcs;
-                document.getElementById("goodlaptopCost").textContent = goodlaptopCost;
-                document.getElementById("goodlaptops").textContent = goodlaptops;
-                document.getElementById("gpcCost").textContent = gpcCost;
-                document.getElementById("gpcs").textContent = gpcs;
-                document.getElementById("apcCost").textContent = apcCost;
-                document.getElementById("apcs").textContent = apcs;
-                checkAffordable();
+            score = 0;
+            btcPerSecond = 0;
+            for (let item in store) {
+                store[item].quantity = 0;
+                store[item].cost = initialCosts[item];
             }
+            updateStoreDisplay();
+            updateScoreDisplay();
         }
 
-        // Event listeners for buttons
-        document.getElementById("mineBitcoin").addEventListener("click", () => addToScore(clickingPower));
-        document.getElementById("cursor").addEventListener("click", buyCursor);
-        document.getElementById("oldLaptop").addEventListener("click", buyOldLaptop);
-        document.getElementById("oldPC").addEventListener("click", buyOldPC);
-        document.getElementById("laptop").addEventListener("click", buyLaptop);
-        document.getElementById("pc").addEventListener("click", buyPc);
-        document.getElementById("goodpc").addEventListener("click", buyGoodpc);
-        document.getElementById("goodlaptop").addEventListener("click", buyGoodlaptop);
-        document.getElementById("gpc").addEventListener("click", buyGpc);
-        document.getElementById("apc").addEventListener("click", buyApc);
-        document.getElementById("resetGame").addEventListener("click", resetGame);
+        const initialCosts = {
+            cursor: 30,
+            oldLaptop: 300,
+            oldPC: 1000,
+            laptop: 10000,
+            pc: 50000,
+            goodpc: 100000,
+            goodlaptop: 1000000,
+            gpc: 50000000,
+            apc: 500000000,
+            server: 1000000000
+        };
 
-        // Initial check for affordable items
-        checkAffordable();
+        updateScoreDisplay();
+        updateStoreDisplay();
     </script>
 </body>
 </html>
