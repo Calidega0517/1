@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BTC Clicker</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
@@ -21,8 +21,6 @@
             flex-direction: column;
             height: 100vh;
             margin: 0;
-            touch-action: manipulation; /* For touch devices */
-            zoom: 100%; /* For non-touch devices */
         }
 
         #reset-button {
@@ -87,7 +85,6 @@
             width: 100%;
             margin: 10px 0px;
             opacity: 1;
-            cursor: pointer;
         }
 
         .shopButton.disabled {
@@ -149,8 +146,8 @@
     <div class="main-container">
         <div class="sectionLeft">
             <div class="scoreContainer">
-                Bitcoin <br><span class="score1">0</span>
-                <div id="scorepersecond" class="sps">0</div> Bitcoin Per Second
+                <span id="score">Bitcoin <br><div class="score1">0</div></span>
+                <span id="scorepersecond" class="sps">0</span> Per Second
             </div>
             <br>
             <div class="clickerContainer">
@@ -162,7 +159,7 @@
         </div>
         <div class="sectionRight">
             <div class="upgrades-container">
-                <table id="cursor" class="shopButton" onclick="buyItem('cursor', cursorCost, buyCursor)">
+                <table id="cursor" class="shopButton" onclick="buyCursor()">
                     <tr>
                         <td class="image"><img src="Assets/upgrade1.png"></td>
                         <td class="nameAndCost">
@@ -173,7 +170,7 @@
                     </tr>
                 </table>
 
-                <table id="oldLaptop" class="shopButton" onclick="buyItem('oldLaptop', oldLaptopCost, buyOldLaptop)">
+                <table id="oldLaptop" class="shopButton" onclick="buyOldLaptop()">
                     <tr>
                         <td class="image"><img src="Assets/2.png"></td>
                         <td class="nameAndCost">
@@ -184,7 +181,7 @@
                     </tr>
                 </table>
 
-                <table id="oldPC" class="shopButton" onclick="buyItem('oldPC', oldPCCost, buyOldPC)">
+                <table id="oldPC" class="shopButton" onclick="buyOldPC()">
                     <tr>
                         <td class="image"><img src="Assets/3.png"></td>
                         <td class="nameAndCost">
@@ -195,7 +192,7 @@
                     </tr>
                 </table>
 
-                <table id="laptop" class="shopButton" onclick="buyItem('laptop', laptopCost, buyLaptop)">
+                <table id="laptop" class="shopButton" onclick="buyLaptop()">
                     <tr>
                         <td class="image"><img src="Assets/4.png"></td>
                         <td class="nameAndCost">
@@ -206,18 +203,18 @@
                     </tr>
                 </table>
 
-                <table id="pc" class="shopButton" onclick="buyItem('pc', pcCost, buyPc)">
+                <table id="pc" class="shopButton" onclick="buyPc()">
                     <tr>
                         <td class="image"><img src="Assets/5.png"></td>
                         <td class="nameAndCost">
-                            <p>PC</p>
+                            <p>Pc</p>
                             <p><span id="pcCost">50,000</span> Bitcoin</p>
                         </td>
                         <td class="amount"><span id="pcs">0</span></td>
                     </tr>
                 </table>
 
-                <table id="goodpc" class="shopButton" onclick="buyItem('goodpc', goodpcCost, buyGoodpc)">
+                <table id="goodpc" class="shopButton" onclick="buyGoodpc()">
                     <tr>
                         <td class="image"><img src="Assets/6.png"></td>
                         <td class="nameAndCost">
@@ -228,7 +225,7 @@
                     </tr>
                 </table>
 
-                <table id="goodlaptop" class="shopButton" onclick="buyItem('goodlaptop', goodlaptopCost, buyGoodlaptop)">
+                <table id="goodlaptop" class="shopButton" onclick="buyGoodlaptop()">
                     <tr>
                         <td class="image"><img src="Assets/7.png"></td>
                         <td class="nameAndCost">
@@ -239,7 +236,7 @@
                     </tr>
                 </table>
 
-                <table id="gpc" class="shopButton" onclick="buyItem('gpc', gpcCost, buyGpc)">
+                <table id="gpc" class="shopButton" onclick="buyGpc()">
                     <tr>
                         <td class="image"><img src="Assets/8.png"></td>
                         <td class="nameAndCost">
@@ -250,251 +247,148 @@
                     </tr>
                 </table>
 
-                <table id="apc" class="shopButton" onclick="buyItem('apc', apcCost, buyApc)">
-                                    <tr>
-                    <td class="image"><img src="Assets/9.png"></td>
-                    <td class="nameAndCost">
-                        <p>Advanced PC</p>
-                        <p><span id="apcCost">1,000,000,000</span> Bitcoin</p>
-                    </td>
-                    <td class="amount"><span id="apcs">0</span></td>
-                </tr>
-            </table>
+                <table id="apc" class="shopButton" onclick="buyApc()">
+                    <tr>
+                        <td class="image"><img src="Assets/9.png"></td>
+                        <td class="nameAndCost">
+                            <p>Advanced PC</p>
+                            <p><span id="apcCost">500,000,000</span> Bitcoin</p>
+                        </td>
+                        <td class="amount"><span id="apcs">0</span></td>
+                    </tr>
+                </table>
 
-            <table id="ascend" class="shopButton" onclick="buyItem('ascend', ascendCost, buyAscend)">
-                <tr>
-                    <td class="image"><img src="Assets/10.png"></td>
-                    <td class="nameAndCost">
-                        <p>Old Shop</p>
-                        <p><span id="ascendCost">25,000,000,000</span> Bitcoin</p>
-                    </td>
-                    <td class="amount"><span id="ascends">0</span></td>
-                </tr>
-            </h5>
+                <table id="server" class="shopButton" onclick="buyServer()">
+                    <tr>
+                        <td class="image"><img src="Assets/10.png"></td>
+                        <td class="nameAndCost">
+                            <p>Server</p>
+                            <p><span id="serverCost">1,000,000,000</span> Bitcoin</p>
+                        </td>
+                        <td class="amount"><span id="servers">0</span></td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
-</div>
 
-<script>
-    let score = 0;
-    let clickingPower = 1;
-    let btcPerSecond = 0;
+    <script>
+        let score = 0;
+        let btcPerSecond = 0;
+        let clickingPower = 1;
 
-    let cursorCost = 30;
-    let oldLaptopCost = 300;
-    let oldPCCost = 1000;
-    let laptopCost = 10000;
-    let pcCost = 50000;
-    let goodpcCost = 100000;
-    let goodlaptopCost = 1000000;
-    let gpcCost = 50000000;
-    let apcCost = 1000000000;
-    let ascendCost = 25000000000;
+        // Store item quantities and costs
+        const store = {
+            cursor: { quantity: 0, cost: 30, increment: 0.1 },
+            oldLaptop: { quantity: 0, cost: 300, increment: 1 },
+            oldPC: { quantity: 0, cost: 1000, increment: 5 },
+            laptop: { quantity: 0, cost: 10000, increment: 50 },
+            pc: { quantity: 0, cost: 50000, increment: 100 },
+            goodpc: { quantity: 0, cost: 100000, increment: 500 },
+            goodlaptop: { quantity: 0, cost: 1000000, increment: 1000 },
+            gpc: { quantity: 0, cost: 50000000, increment: 10000 },
+            apc: { quantity: 0, cost: 500000000, increment: 100000 },
+            server: { quantity: 0, cost: 1000000000, increment: 500000 }
+        };
 
-    let cursors = 0;
-    let oldLaptops = 0;
-    let oldPCs = 0;
-    let laptops = 0;
-    let pcs = 0;
-    let goodpcs = 0;
-    let goodlaptops = 0;
-    let gpcs = 0;
-    let apcs = 0;
-    let ascends = 0;
-
-    function addToScore(amount) {
-        score += amount;
-        document.querySelector('.score1').textContent = score;
-    }
-
-    function buyItem(item, itemCost, itemAction) {
-        if (score >= itemCost) {
-            score -= itemCost;
-            itemAction();
-            updateScore();
-            updateItemAmounts();
-        } else {
-            alert('You do not have enough Bitcoin to purchase this item.');
+        function updateScoreDisplay() {
+            document.querySelector('.score1').textContent = score.toFixed(0);
+            document.querySelector('.sps').textContent = (btcPerSecond * 10000).toFixed(0);
         }
-    }
 
-    function updateScore() {
-        document.querySelector('.score1').textContent = score;
-    }
+        function addToScore(amount) {
+            score += amount;
+            updateScoreDisplay();
+        }
 
-    function updateItemAmounts() {
-        document.getElementById('cursors').textContent = cursors;
-        document.getElementById('oldLaptops').textContent = oldLaptops;
-        document.getElementById('oldPCs').textContent = oldPCs;
-        document.getElementById('laptops').textContent = laptops;
-        document.getElementById('pcs').textContent = pcs;
-        document.getElementById('goodpcs').textContent = goodpcs;
-        document.getElementById('goodlaptops').textContent = goodlaptops;
-        document.getElementById('gpcs').textContent = gpcs;
-        document.getElementById('apcs').textContent = apcs;
-        document.getElementById('ascends').textContent = ascends;
-    }
+        function buyItem(item) {
+            if (score >= store[item].cost) {
+                score -= store[item].cost;
+                store[item].quantity++;
+                btcPerSecond += store[item].increment;
+                store[item].cost = Math.round(store[item].cost * 1.15);
+                updateStoreDisplay();
+                updateScoreDisplay();
+            }
+        }
 
-    function buyCursor() {
-        cursors++;
-        cursorCost = Math.floor(cursorCost * 1.15);
-        updateCursorCost();
-        btcPerSecond += 1;
-        updateScorePerSecond();
-    }
+        function updateStoreDisplay() {
+            for (let item in store) {
+                document.getElementById(item + 'Cost').textContent = store[item].cost;
+                document.getElementById(item + 's').textContent = store[item].quantity;
+            }
+        }
 
-    function buyOldLaptop() {
-        oldLaptops++;
-        oldLaptopCost = Math.floor(oldLaptopCost * 1.15);
-        updateOldLaptopCost();
-        btcPerSecond += 5;
-        updateScorePerSecond();
-    }
+        function buyCursor() {
+            buyItem('cursor');
+        }
 
-    function buyOldPC() {
-        oldPCs++;
-        oldPCCost = Math.floor(oldPCCost * 1.15);
-        updateOldPCCost();
-        btcPerSecond += 10;
-        updateScorePerSecond();
-    }
+        function buyOldLaptop() {
+            buyItem('oldLaptop');
+        }
 
-    function buyLaptop() {
-        laptops++;
-        laptopCost = Math.floor(laptopCost * 1.15);
-        updateLaptopCost();
-        btcPerSecond += 20;
-        updateScorePerSecond();
-    }
+        function buyOldPC() {
+            buyItem('oldPC');
+        }
 
-    function buyPc() {
-        pcs++;
-        pcCost = Math.floor(pcCost * 1.15);
-        updatePcCost();
-        btcPerSecond += 50;
-        updateScorePerSecond();
-    }
+        function buyLaptop() {
+            buyItem('laptop');
+        }
 
-    function buyGoodpc() {
-        goodpcs++;
-        goodpcCost = Math.floor(goodpcCost * 1.15);
-        updateGoodpcCost();
-        btcPerSecond += 100;
-        updateScorePerSecond();
-    }
+        function buyPc() {
+            buyItem('pc');
+        }
 
-    function buyGoodlaptop() {
-        goodlaptops++;
-        goodlaptopCost = Math.floor(goodlaptopCost * 1.15);
-        updateGoodlaptopCost();
-        btcPerSecond += 250;
-        updateScorePerSecond();
-    }
+        function buyGoodpc() {
+            buyItem('goodpc');
+        }
 
-    function buyGpc() {
-        gpcs++;
-        gpcCost = Math.floor(gpcCost * 1.15);
-        updateGpcCost();
-        btcPerSecond += 1000;
-        updateScorePerSecond();
-    }
+        function buyGoodlaptop() {
+            buyItem('goodlaptop');
+        }
 
-    function buyApc() {
-        apcs++;
-        apcCost = Math.floor(apcCost * 1.15);
-        updateApcCost();
-        btcPerSecond += 10000;
-        updateScorePerSecond();
-    }
+        function buyGpc() {
+            buyItem('gpc');
+        }
 
-    function buyAscend() {
-        ascends++;
-        ascendCost = Math.floor(ascendCost * 1.15);
-        updateAscendCost();
-        btcPerSecond += 100000;
-        updateScorePerSecond();
-    }
+        function buyApc() {
+            buyItem('apc');
+        }
 
-    function updateCursorCost() {
-        document.getElementById('cursorCost').textContent = cursorCost;
-    }
+        function buyServer() {
+            buyItem('server');
+        }
 
-    function updateOldLaptopCost() {
-        document.getElementById('oldLaptopCost').textContent = oldLaptopCost;
-    }
+        setInterval(function() {
+            addToScore(btcPerSecond / 10);
+        }, 100);
 
-    function updateOldPCCost() {
-        document.getElementById('oldPCCost').textContent = oldPCCost;
-    }
+        function resetGame() {
+            score = 0;
+            btcPerSecond = 0;
+            for (let item in store) {
+                store[item].quantity = 0;
+                store[item].cost = initialCosts[item];
+            }
+            updateStoreDisplay();
+            updateScoreDisplay();
+        }
 
-    function updateLaptopCost() {
-        document.getElementById('laptopCost').textContent = laptopCost;
-    }
+        const initialCosts = {
+            cursor: 30,
+            oldLaptop: 300,
+            oldPC: 1000,
+            laptop: 10000,
+            pc: 50000,
+            goodpc: 100000,
+            goodlaptop: 1000000,
+            gpc: 50000000,
+            apc: 500000000,
+            server: 1000000000
+        };
 
-    function updatePcCost() {
-        document.getElementById('pcCost').textContent = pcCost;
-    }
-
-    function updateGoodpcCost() {
-        document.getElementById('goodpcCost').textContent = goodpcCost;
-    }
-
-    function updateGoodlaptopCost() {
-        document.getElementById('goodlaptopCost').textContent = goodlaptopCost;
-    }
-
-    function updateGpcCost() {
-        document.getElementById('gpcCost').textContent = gpcCost;
-    }
-
-    function updateApcCost() {
-        document.getElementById('apcCost').textContent = apcCost;
-    }
-
-    function updateAscendCost() {
-        document.getElementById('ascendCost').textContent = ascendCost;
-    }
-
-    function updateScorePerSecond() {
-        document.getElementById('scorepersecond').textContent = btcPerSecond;
-    }
-
-    function resetGame() {
-        score = 0;
-        clickingPower = 1;
-        btcPerSecond = 0;
-
-        cursorCost = 30;
-        oldLaptopCost = 300;
-        oldPCCost = 1000;
-        laptopCost = 10000;
-        pcCost = 50000;
-        goodpcCost = 100000;
-        goodlaptopCost = 1000000;
-        gpcCost = 50000000;
-        apcCost = 1000000000;
-        ascendCost = 25000000000;
-
-        cursors = 0;
-        oldLaptops = 0;
-        oldPCs = 0;
-        laptops = 0;
-        pcs = 0;
-        goodpcs = 0;
-        goodlaptops = 0;
-        gpcs = 0;
-        apcs = 0;
-        ascends = 0;
-
-        updateScore();
-        updateScorePerSecond();
-        updateItemAmounts();
-    }
-
-    setInterval(function() {
-        score += btcPerSecond;
-        updateScore();
-    }, 1000);
-</script>
+        updateScoreDisplay();
+        updateStoreDisplay();
+    </script>
 </body>
 </html>
