@@ -313,18 +313,18 @@
         let sps = 0;
 
         const items = {
-            cursor: { cost: 30, amount: 0, sps: 1 },
-            oldLaptop: { cost: 300, amount: 0, sps: 5 },
-            oldPC: { cost: 1000, amount: 0, sps: 10 },
-            laptop: { cost: 10000, amount: 0, sps: 100 },
-            pc: { cost: 50000, amount: 0, sps: 250 },
-            goodpc: { cost: 100000, amount: 0, sps: 500 },
-            goodlaptop: { cost: 1000000, amount: 0, sps: 1000 },
-            gpc: { cost: 10000000, amount: 0, sps: 5000 },
-            server: { cost: 1000000000, amount: 0, sps: 10000 },
-            serverFarm: { cost: 100000000000, amount: 0, sps: 50000 },
-            quantum: { cost: 1000000000000, amount: 0, sps: 100000 },
-            planetaryServer: { cost: 100000000000000, amount: 0, sps: 500000 }
+            cursor: { cost: 30, amount: 0, sps: 1, initialCost: 30 },
+            oldLaptop: { cost: 300, amount: 0, sps: 5, initialCost: 300 },
+            oldPC: { cost: 1000, amount: 0, sps: 10, initialCost: 1000 },
+            laptop: { cost: 10000, amount: 0, sps: 100, initialCost: 10000 },
+            pc: { cost: 50000, amount: 0, sps: 250, initialCost: 50000 },
+            goodpc: { cost: 100000, amount: 0, sps: 500, initialCost: 100000 },
+            goodlaptop: { cost: 1000000, amount: 0, sps: 1000, initialCost: 1000000 },
+            gpc: { cost: 10000000, amount: 0, sps: 5000, initialCost: 10000000 },
+            server: { cost: 1000000000, amount: 0, sps: 10000, initialCost: 1000000000 },
+            serverFarm: { cost: 100000000000, amount: 0, sps: 50000, initialCost: 100000000000 },
+            quantum: { cost: 1000000000000, amount: 0, sps: 100000, initialCost: 1000000000000 },
+            planetaryServer: { cost: 100000000000000, amount: 0, sps: 500000, initialCost: 100000000000000 }
         };
 
         function addToScore(amount) {
