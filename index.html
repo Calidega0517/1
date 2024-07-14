@@ -141,9 +141,13 @@
         }
 
         #unknown {
-            height: 1px;
-            width: 1px;
+            height: 10px;
+            width: 10px;
             opacity: 0;
+        }
+
+        #unknown:hover {
+            background-color: #ffffff;
         }
     </style>
 </head>
@@ -166,7 +170,7 @@
         <div class="sectionRight">
             <div class="upgrades-container">
                 
-                <button id="unknown" onclick="addToClickingPower(1)"></button>
+                <button id="unknown" onclick="addToClickingPower(1)">1</button>
 
                 <table id="cursor" class="shopButton" onclick="buyItem('cursor')">
                     <tr>
