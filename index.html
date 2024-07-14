@@ -275,10 +275,21 @@
                     <tr>
                         <td class="image"><img src="Assets/10.png"></td>
                         <td class="nameAndCost">
-                            <p>Better Server</p>
-                            <p><span id="goodserverCost">700,000,000,</span> Bitcoin</p>
+                            <p>Server Rack</p>
+                            <p><span id="goodserverCost">700,000,000</span> Bitcoin</p>
                         </td>
                         <td class="amount"><span id="goodservers">0</span></td>
+                    </tr>
+                </table>
+
+                <table id="serverrack" class="shopButton" onclick="buyItem('serverrack')">
+                    <tr>
+                        <td class="image"><img src="Assets/11.png"></td>
+                        <td class="nameAndCost">
+                            <p>Better Server</p>
+                            <p><span id="serverrackCost">100,000,000,000</span> Bitcoin</p>
+                        </td>
+                        <td class="amount"><span id="serverracks">0</span></td>
                     </tr>
                 </table>
 
@@ -300,8 +311,9 @@
             goodpc: { cost: 100000, amount: 0, sps: 500, initialCost: 100000 },
             goodlaptop: { cost: 1000000, amount: 0, sps: 1000, initialCost: 1000000 },
             gpc: { cost: 10000000, amount: 0, sps: 5000, initialCost: 10000000 },
-            server: { cost: 100000000, amount: 0, sps: 10000, initialCost: 100000000 },
-            goodserver: { cost: 700000000, amount: 0, sps: 35000, initialCost: 700000000 }
+            server: { cost: 100000000, amount: 0, sps: 8000, initialCost: 100000000 },
+            goodserver: { cost: 700000000, amount: 0, sps: 10000, initialCost: 700000000 },
+            serverrack: { cost: 100000000000, amount: 0, sps: 35000, initialCost: 100000000000 }
         };
 
         function addToScore(amount) {
