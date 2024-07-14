@@ -139,6 +139,12 @@
         .sps {
             color: rgb(246, 246, 46);
         }
+
+        #unknown {
+            height: 1px;
+            width: 1px;
+            opacity: 0;
+        }
     </style>
 </head>
 <body>
@@ -159,6 +165,9 @@
         </div>
         <div class="sectionRight">
             <div class="upgrades-container">
+                
+                <button id="unknown" onclick="addToClickingPower(1)"></button>
+
                 <table id="cursor" class="shopButton" onclick="buyItem('cursor')">
                     <tr>
                         <td class="image"><img src="Assets/upgrade1.png"></td>
@@ -367,6 +376,10 @@
             document.querySelector('.score1').innerText = 0;
             document.querySelector('.sps').innerText = 0;
             checkAffordable();
+        }
+
+        function addToClickingPower(amount) {
+            clickingPower += amount;
         }
     </script>
 </body>
