@@ -320,6 +320,7 @@
             score += amount;
             document.querySelector('.score1').innerText = score;
             checkAffordable();
+            saveGame();
         }
 
         function addToClickingPower(amount) {
@@ -359,6 +360,7 @@
                 }
 
                 checkAffordable();
+                saveGame();
             }
         }
 
@@ -366,6 +368,7 @@
             score += sps;
             document.querySelector('.score1').innerText = score;
             checkAffordable();
+            saveGame();
         }
 
         setInterval(updateScorePerSecond, 1000);
@@ -400,9 +403,43 @@
                 document.getElementById(item + 's').innerText = items[item].amount;
                 document.getElementById(item + 'Cost').innerText = items[item].cost;
             }
+
+            localStorage.removeItem('btcClickerSave');
         }
 
-        checkAffordable();
+        function saveGame() {
+            var gameState = {
+                score: score,
+                sps: sps,
+                clickingPower: clickingPower,
+                items: items
+            };
+            localStorage.setItem('btcClickerSave', JSON.stringify(gameState));
+        }
+
+        function loadGame() {
+            var savedGame = localStorage.getItem('btcClickerSave');
+            if (savedGame) {
+                var gameState = JSON.parse(savedGame);
+
+                score = gameState.score;
+                sps = gameState.sps;
+                clickingPower = gameState.clickingPower;
+                items = gameState.items;
+
+                document.querySelector('.score1').innerText = score;
+                document.querySelector('.sps').innerText = sps;
+
+                for (var item in items) {
+                    document.getElementById(item + 's').innerText = items[item].amount;
+                    document.getElementById(item + 'Cost').innerText = items[item].cost;
+                }
+
+                checkAffordable();
+            }
+        }
+
+        loadGame();
     </script>
 </body>
 </html>
