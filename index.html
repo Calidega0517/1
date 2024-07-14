@@ -265,42 +265,9 @@
                         <td class="image"><img src="Assets/9.png"></td>
                         <td class="nameAndCost">
                             <p>Server</p>
-                            <p><span id="serverCost">1,000,000,000</span> Bitcoin</p>
+                            <p><span id="serverCost">100,000,000</span> Bitcoin</p>
                         </td>
                         <td class="amount"><span id="servers">0</span></td>
-                    </tr>
-                </table>
-
-                <table id="serverFarm" class="shopButton" onclick="buyItem('serverFarm')">
-                    <tr>
-                        <td class="image"><img src="Assets/10.png"></td>
-                        <td class="nameAndCost">
-                            <p>Server Farm</p>
-                            <p><span id="serverFarmCost">100,000,000,000</span> Bitcoin</p>
-                        </td>
-                        <td class="amount"><span id="serverFarms">0</span></td>
-                    </tr>
-                </table>
-
-                <table id="quantum" class="shopButton" onclick="buyItem('quantum')">
-                    <tr>
-                        <td class="image"><img src="Assets/11.png"></td>
-                        <td class="nameAndCost">
-                            <p>Quantum PC</p>
-                            <p><span id="quantumCost">1,000,000,000,000</span> Bitcoin</p>
-                        </td>
-                        <td class="amount"><span id="quantums">0</span></td>
-                    </tr>
-                </table>
-
-                <table id="planetaryServer" class="shopButton" onclick="buyItem('planetaryServer')">
-                    <tr>
-                        <td class="image"><img src="Assets/12.png"></td>
-                        <td class="nameAndCost">
-                            <p>Planetary Server</p>
-                            <p><span id="planetaryServerCost">100,000,000,000,000</span> Bitcoin</p>
-                        </td>
-                        <td class="amount"><span id="planetaryServers">0</span></td>
                     </tr>
                 </table>
             </div>
@@ -308,23 +275,20 @@
     </div>
 
     <script>
-        let score = 0;
-        let clickingPower = 1;
-        let sps = 0;
+        var score = 0;
+        var sps = 0;
+        var clickingPower = 1;
 
-        const items = {
-            cursor: { cost: 30, amount: 0, sps: 1, initialCost: 30 },
-            oldLaptop: { cost: 300, amount: 0, sps: 5, initialCost: 300 },
+        var items = {
+            cursor: { cost: 30, amount: 0, initialCost: 30 },
+            oldLaptop: { cost: 300, amount: 0, sps: 1, initialCost: 300 },
             oldPC: { cost: 1000, amount: 0, sps: 10, initialCost: 1000 },
-            laptop: { cost: 10000, amount: 0, sps: 100, initialCost: 10000 },
-            pc: { cost: 50000, amount: 0, sps: 250, initialCost: 50000 },
+            laptop: { cost: 10000, amount: 0, sps: 50, initialCost: 10000 },
+            pc: { cost: 50000, amount: 0, sps: 100, initialCost: 50000 },
             goodpc: { cost: 100000, amount: 0, sps: 500, initialCost: 100000 },
             goodlaptop: { cost: 1000000, amount: 0, sps: 1000, initialCost: 1000000 },
-            gpc: { cost: 10000000, amount: 0, sps: 5000, initialCost: 10000000 },
-            server: { cost: 1000000000, amount: 0, sps: 10000, initialCost: 1000000000 },
-            serverFarm: { cost: 100000000000, amount: 0, sps: 50000, initialCost: 100000000000 },
-            quantum: { cost: 1000000000000, amount: 0, sps: 100000, initialCost: 1000000000000 },
-            planetaryServer: { cost: 100000000000000, amount: 0, sps: 500000, initialCost: 100000000000000 }
+            gpc: { cost: 10000000, amount: 0, sps: 10000, initialCost: 10000000 },
+            server: { cost: 100000000, amount: 0, sps: 100000, initialCost: 100000000 }
         };
 
         function addToScore(amount) {
@@ -333,16 +297,8 @@
             checkAffordable();
         }
 
-        function checkAffordable() {
-            for (const key in items) {
-                const item = items[key];
-                const button = document.getElementById(key);
-                if (score >= item.cost) {
-                    button.classList.remove('disabled');
-                } else {
-                    button.classList.add('disabled');
-                }
-            }
+        function addToClickingPower(amount) {
+            clickingPower += amount;
         }
 
         function buyItem(item) {
@@ -350,41 +306,78 @@
                 score -= items[item].cost;
                 items[item].amount++;
                 items[item].cost = Math.round(items[item].cost * 1.15);
-                sps += items[item].sps;
+
+                // Update sps only if the item contributes to sps
+                if (items[item].sps) {
+                    sps += items[item].sps;
+                }
+
+                // Increase clicking power if the item is a cursor
+                if (item === 'cursor') {
+                    addToClickingPower(1);
+                }
+
+                // Update HTML elements
                 document.getElementById(item + 's').innerText = items[item].amount;
                 document.getElementById(item + 'Cost').innerText = items[item].cost;
                 document.querySelector('.sps').innerText = sps;
                 document.querySelector('.score1').innerText = score;
+
+                // Ensure score and sps are numeric values
+                if (isNaN(score)) {
+                    score = 0;
+                    document.querySelector('.score1').innerText = score;
+                }
+                if (isNaN(sps)) {
+                    sps = 0;
+                    document.querySelector('.sps').innerText = sps;
+                }
+
                 checkAffordable();
             }
         }
 
-        function addScorePerSecond() {
+        function updateScorePerSecond() {
             score += sps;
             document.querySelector('.score1').innerText = score;
             checkAffordable();
         }
 
-        setInterval(addScorePerSecond, 1000);
+        setInterval(updateScorePerSecond, 1000);
+
+        function checkAffordable() {
+            for (var item in items) {
+                var button = document.getElementById(item);
+                if (score >= items[item].cost) {
+                    button.classList.remove('disabled');
+                } else {
+                    button.classList.add('disabled');
+                }
+            }
+        }
 
         function resetGame() {
             score = 0;
-            clickingPower = 1;
             sps = 0;
-            for (const key in items) {
-                items[key].amount = 0;
-                items[key].cost = items[key].initialCost;
-                document.getElementById(key + 's').innerText = 0;
-                document.getElementById(key + 'Cost').innerText = items[key].cost;
+            clickingPower = 1;
+
+            for (var item in items) {
+                items[item].cost = items[item].initialCost;
+                items[item].amount = 0;
             }
-            document.querySelector('.score1').innerText = 0;
-            document.querySelector('.sps').innerText = 0;
+
+            document.querySelector('.score1').innerText = score;
+            document.querySelector('.sps').innerText = sps;
             checkAffordable();
+
+            // Update all item amounts and costs in the UI
+            for (var item in items) {
+                document.getElementById(item + 's').innerText = items[item].amount;
+                document.getElementById(item + 'Cost').innerText = items[item].cost;
+            }
         }
 
-        function addToClickingPower(amount) {
-            clickingPower += amount;
-        }
+        checkAffordable();
     </script>
 </body>
 </html>
