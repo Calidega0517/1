@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BTC Clicker</title>
+    <title>Bitcoin Clicker</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
@@ -313,7 +313,11 @@
             gpc: { cost: 10000000, amount: 0, sps: 5000, initialCost: 10000000 },
             server: { cost: 100000000, amount: 0, sps: 8000, initialCost: 100000000 },
             goodserver: { cost: 700000000, amount: 0, sps: 10000, initialCost: 700000000 },
-            serverrack: { cost: 100000000000, amount: 0, sps: 35000, initialCost: 100000000000 }
+            serverrack: { cost: 100000000000, amount: 0, sps: 35000, initialCost: 100000000000 },
+        };
+
+        var items1 = {
+
         };
 
         function addToScore(amount) {
@@ -331,7 +335,9 @@
             if (score >= items[item].cost) {
                 score -= items[item].cost;
                 items[item].amount++;
-                items[item].cost = Math.round(items[item].cost * 1.15);
+                items[item].cost = Math.round(items[item].cost * 1.50);
+
+
 
                 // Update sps only if the item contributes to sps
                 if (items[item].sps) {
@@ -340,7 +346,7 @@
 
                 // Increase clicking power if the item is a cursor
                 if (item === 'cursor') {
-                    addToClickingPower(1);
+                    addToClickingPower(0.50);
                 }
 
                 // Update HTML elements
